@@ -2,6 +2,10 @@
 <script src="http://cdn.staticfile.org/jquery/2.2.1/jquery.min.js"></script>
 <script>
 
+    //分隔符
+    var separator = "AND";
+    //把target对象设在最外面
+    var target = null
     /*
     io.connect():向服务端发起连接请求
     */
@@ -48,36 +52,68 @@
         self.changeName();
         //启动randomChat响应函数
         self.socket.on('randomChat', function(data) {
-            outer:
-            for(var i=0;i<data.userJson.length;i++){
-                for(var key in data.userJson[i]){
-                    if (key == self.userName){
-                        //alert(typeof(key))
-                        //alert('value = ' + data.userJson[i][key]);
-                        self.createPrivateChat(data.userJson[i][key],true);
-                        //var str = "select * from student where name='" + key + "'"
-                        break outer;
-                    }
-                    if (data.userJson[i][key] ==self.userName){
-                        //alert('key = ' + key);
-                        self.createPrivateChat(key,true);
-                        break outer;
+            if (data.threeUsers[0] != self.userName && data.threeUsers[1] != self.userName && data.threeUsers[2] != self.userName ){
+                for(var i=0;i<data.userJson.length;i++){
+                    for(var key in data.userJson[i]){
+                        if (key == self.userName){
+                            //alert(typeof(key));
+                            //在左边消息栏添加li元素聊天对象，右边聊天框添加div，并把该li和div设为当前对象
+                            return self.createPrivateChat(data.userJson[i][key],true);
+                        }
+                        if (data.userJson[i][key] ==self.userName){
+                            return self.createPrivateChat(key,true);
+                        }
                     }
                 }
+            }
+            else{
+                //alert('start');
+                if (data.threeUsers[0] == self.userName){
+                    target = data.threeUsers[1]+ separator  +data.threeUsers[2];
+                    //alert(target);
+                    return self.createPrivateChat(target,true);
+                }
+                if (data.threeUsers[1] == self.userName){
+                    target = data.threeUsers[0]+ separator +data.threeUsers[2];
+                    return self.createPrivateChat(target,true);
+                }
+                if (data.threeUsers[2] == self.userName){
+                    target = data.threeUsers[0]+ separator +data.threeUsers[1];
+                    return self.createPrivateChat(target,true);
+                }
+                //alert(data.threeUsers);
             }
         });
         //启动pm响应函数，用于接收服务端的私聊信息
         self.socket.on('pm', function(data) {
             //alert('pm start');
-            if(data.name != self.userName) return;
-            //self.createPrivateChat(data.name);
-            data = {
-                msg:data.msg,
-                name:data.targetId,
-                targetId:data.targetId
+            if (data.targetName.indexOf(separator)){
+                var splitArr = data.targetName.split(separator);
+                var targetName01 = splitArr[0];
+                var targetName02 = splitArr[1];
+                var flag = targetName01 == self.userName || targetName02 == self.userName;
+                //alert(flag);
+                if (flag){
+                    data = {
+                        msg:data.msg,
+                        userName:data.userName,
+                        targetName:target
+                    }
+                    self.addChatLog(data,false);
+                    //alert(data.userName);
+                }
+                //alert(splitArr);
             }
-            self.addChatLog(data, data.targetId, false);
-            //alert('pm end');
+            else{
+                if(data.targetName != self.userName) return;
+                data = {
+                    msg:data.msg,
+                    userName:data.userName,
+                    targetName:data.userName
+                }
+                //把对方写的聊天消息添加到聊天框上
+                self.addChatLog(data,false);
+            }
         })
     }
     //弹出输入用户名窗口
@@ -101,26 +137,29 @@
     ChatRoomClient.prototype.addWelcomeLog = function(data) {
         var $info = '<div class="chatroom-log-info chatroom-log-welcome"> '
             + '欢迎 '
-            + '<strong class="name">' + data.name + '</strong> 加入群聊！</div>';
+            + '<strong class="name">' + data.userName + '</strong> 加入群聊！</div>';
         var $target = $(".chatroom-item[data-id='group']");
         $target.append($info);
     };
-    //创建私聊窗口
+    //在chatroom-tribes的左边消息栏上添加<li class="chatroom-tribe" data-id='target'>元素，
+    //右边chatroom-pannel-bd的聊天框上添加<div class="chatroom-item" data-id='target'></div>元素，
+    // 如果setCurrent为true，并把该li和div设为当前对象
     ChatRoomClient.prototype.createPrivateChat = function(target,setCurrent) {
         var tabXtpl = [
-            '<li class="chatroom-tribe" data-id='+target,
-            '><span class="name">'+target,
+            '<li class="chatroom-tribe" data-id='+target+'>',
+            '<span class="name">'+target,
             '</span>',
             '<span class="count">0</span>',
             '<i class="iconfont">╳</i>',
             '</li>'
         ];
-        //非贪婪模式\s*?空字符串，
+        //把tabXtpl数组的元素连起来组成一个字符串，并往左边消息栏添加新的li元素（data-id='target'）
         var $li = tabXtpl.join('');
         $(".chatroom-tribes").append($li);
+        //把一个新的div（data-id='target'）添加进chatroom-pannel-bd里
         var $pannel = '<div class="chatroom-item" data-id=' + target + '></div>';
         $(".chatroom-pannel-bd").append($pannel);
-        //把新建的聊天窗口显示为当前窗口
+        //把新建的li元素和div设为当前对象
         if(setCurrent) {
             $('.chatroom-tribe').removeClass('current');
             $('.chatroom-item').removeClass('current');
@@ -128,21 +167,20 @@
             $('.chatroom-item').last().addClass('current');
         }
     }
-    //往聊天框里添加说话内容 div class="chatroom-log'
-    ChatRoomClient.prototype.addChatLog = function(data, id, isSelf) {
+    //在chatroom-item[data-id=' data.targetName']的div上添加聊天信息
+        ChatRoomClient.prototype.addChatLog = function(data,isSelf) {
 /*        if(!isSelf) {
             data.name = '我';
         }*/
         var logXtpl = [
             '<div class="chatroom-log' + (isSelf ? ' myself' : '') + '">',
-            '<span class="time"><b data-id='+data.name+'>'+data.name+'</b> ' + new Date().toLocaleString() + '</span>',
+            '<span class="time"><b data-id='+data.userName+'>'+data.userName+'</b> ' + new Date().toLocaleString() + '</span>',
             '<span class="detail">'+data.msg+'</span>',
             '</div>'
         ];
         var $log = logXtpl.join('\n');
-        var $target = $(".chatroom-item[data-id='" + data.targetId + "']");
+        var $target = $(".chatroom-item[data-id='" + data.targetName + "']");
         $target.append($log);
-        //alert("addChatLog done!!")
     };
     //一堆JQuery函数
     ChatRoomClient.prototype.bindEvent = function() {
@@ -157,12 +195,13 @@
                 }
                 var data = {
                     msg: val,
-                    name: self.userName,
-                    targetId: targetName
+                    userName: self.userName,
+                    targetName: targetName
                 };
-                //alert("keydown success!")
+                //alert("keydown:"+targetName);
                 self.socket.emit(targetName == 'group' ? 'gm' : 'pm', data);
-                self.addChatLog(data, targetName, true);
+                //把自己写的聊天消息添加到自己的聊天框上
+                self.addChatLog(data,true);
                 $this.val('').focus();
                 return false;
             }
