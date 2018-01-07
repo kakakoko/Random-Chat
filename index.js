@@ -49,7 +49,8 @@ io.on('connection', function (socket) {
     });
     //启动pm响应函数，用于接收客户端的私聊信息
     socket.on('pm', function (data) {
-        if (data.targetName.indexOf(separator)){
+        if (data.targetName.indexOf(separator) != -1){
+            console.log('separator:'+separator);
             console.log(data.targetName);
         }
         io.emit('pm', {
@@ -65,28 +66,35 @@ var RANDOM_DELTA = 30*1000;
 //检测onlineUser的人数
 var interval02 = setInterval(function () {
     if (onlineUsers.length < 2){
-        //return;
         console.log('people not enough ')
         return;
     }
     else{
         if (onlineUsers.length == 2){
-            //偶数分配
+            //2人分配
+            console.log('2人分配');
             evenMatch(onlineUsers,userKey,userValue,userJson);
+            return;
         }
         else if (onlineUsers.length == 3){
             //3人分配
+            console.log('3人分配');
             unevenMatch(onlineUsers,threeUsers);
-            onlineUsers = [];
+            onlineUsers.splice(0, onlineUsers.length);
+            return;
         }
-        else if (onlineUsers.length % 2 == 0){
-            //偶数分配
+        else if (onlineUsers.length >2 && onlineUsers.length % 2 == 0){
+            //2人以上偶数分配
+            console.log('2人以上偶数分配');
             evenMatch(onlineUsers,userKey,userValue,userJson);
+            return;
         }
         else{
             //3人分配后偶数分配
+            console.log('3人分配后偶数分配');
             unevenMatch(onlineUsers,threeUsers);
             evenMatch(onlineUsers,userKey,userValue,userJson);
+            return;
         }
     }
 },RANDOM_DELTA)
@@ -125,10 +133,11 @@ function evenMatch(onlineUsers,userKey,userValue,userJson) {
             userJson:userJson,
             threeUsers:['1a!.A','1a!.A','1a!.A']
         });
-        onlineUsers = [];
-        userKey = [];
-        userValue = [];
-        userJson = [];
+
+        onlineUsers.splice(0, onlineUsers.length);
+        userKey.splice(0, userKey.length);
+        userValue.splice(0, userValue.length);
+        userJson.splice(0, userJson.length);
 }
 //随机抽取onlineUsers的3个对象放到threeUers里
 function unevenMatch(onlineUsers,threeUers) {
@@ -144,7 +153,7 @@ function unevenMatch(onlineUsers,threeUers) {
     });
     //打印threeUsers
     console.log('threeUsers['+threeUers[0]+','+threeUers[1]+','+threeUers[2]+']');
-    threeUers = [];
+    threeUers.splice(0, threeUers.length);
 }
 
 
