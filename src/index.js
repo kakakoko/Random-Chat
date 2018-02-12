@@ -49,15 +49,14 @@ function router(req, res) {
         res.end(NOT_FOUNT_MSG);
     }
 }
+
 //启动connction响应函数，用于响应客户端的连接信息
 io.on('connection', function (socket) {
     //启动createUser响应函数，用于响应客户端创建用户名
-    socket.on('createUser', function (data){
+    socket.on('createUser', function (data) {
         var userName = data.userName;
-
         //把新连接的用户信息存到onlineUser
         onlineUsers.push(userName);
-
         //启动broadcast广播函数，用于广播新连接用户信息给各个客户端广播函数
         io.emit('broadcast', {
             userName: userName
@@ -66,91 +65,96 @@ io.on('connection', function (socket) {
     });
     //启动pm响应函数，用于接收客户端的私聊信息
     socket.on('pm', function (data) {
-        if (data.targetName.indexOf(separator) != -1){
-            console.log('separator:'+separator);
+        if (data.targetName.indexOf(separator) != -1) {
+            console.log('separator:' + separator);
             console.log(data.targetName);
         }
         io.emit('pm', {
-            msg:data.msg,
-            userName:data.userName,
-            targetName:data.targetName,
-            isPicture:data.isPicture,
-            img01:data.img01
+            msg: data.msg,
+            userName: data.userName,
+            targetName: data.targetName,
+            isPicture: data.isPicture,
+            img01: data.img01
         });
+    });
+    //启动checkOnLine响应函数，用于接收客户端的在线信息
+    socket.on('checkOnLine', function (data) {
+        var userName = data.userName;
+        //把在线的用户信息存到onlineUser
+        onlineUsers.push(userName);
     });
 
 })
-//每30秒调用一次
-var RANDOM_DELTA = 30*1000;
-//检测onlineUser的人数
-var interval02 = setInterval(function () {
-    if (onlineUsers.length < 2){
-        console.log('people not enough ')
-        return;
-    }
-    else{
-        if (onlineUsers.length == 2){
-            //2人分配
-            console.log('2人分配');
-            evenMatch(onlineUsers,userKey,userValue,userJson);
-            return;
-        }
-        else if (onlineUsers.length == 3){
-            //3人分配
-            console.log('3人分配');
-            unevenMatch(onlineUsers,threeUsers);
-            onlineUsers.splice(0, onlineUsers.length);
-            return;
-        }
-        else if (onlineUsers.length >2 && onlineUsers.length % 2 == 0){
-            //2人以上偶数分配
-            console.log('2人以上偶数分配');
-            evenMatch(onlineUsers,userKey,userValue,userJson);
-            return;
-        }
-        else{
-            //3人分配后偶数分配
-            console.log('3人分配后偶数分配');
-            unevenMatch(onlineUsers,threeUsers);
-            evenMatch(onlineUsers,userKey,userValue,userJson);
-            return;
-        }
-    }
-},RANDOM_DELTA)
+//长间隔定时，每1小时调用一次
+var LONG_DELTA = 60 * 60 * 1000;
+var longInterval = setInterval(
+    function () {
+        //短间隔总分配次数：2
+        var shortTimes = 2;
+        //计数器
+        var times = 0;
+        //短间隔定时，每10分钟调用一次
+        var SHORT_DELTA = 10 * 60 * 1000;
+        var shortInterval = setInterval(
+            function () {
+                //如果短间隔次数大于总分配次数，跳出
+                if (times > shortTimes - 1) {
+                    return;
+                }
+                //短间隔分配次数+1
+                times++;
+                //清空onlineUser
+                onlineUsers.splice(0, onlineUsers.length);
+                //服务器发送广播函数checkOnLine（）
+                io.emit('checkOnLine', {});
+                //checkOnLine后的等待30秒再分配
+                var TIME_AFTER_CHECKONLINE = 0.5 * 60 * 1000;
+                //checkOnLine一分钟后再开始分配
+                var checkOnLineAfter = setTimeout(function () {
+                    //分配聊天
+                    allMatch(onlineUsers, userKey, userValue, userJson, threeUsers);
+                    //记录当前时间戳
+                    console.log('第' + times + '次分配;' + '分配时间： ' + new Date().toLocaleTimeString());
+                }, TIME_AFTER_CHECKONLINE);
+            }, SHORT_DELTA);
+    }, LONG_DELTA);
+
 //把一个数组的值随机分配到两个数组里
 function toTwoArray(arrSum, arrKey, arrValue) {
-    for(var i=0; arrSum.length!=0; i++){
+    for (var i = 0; arrSum.length != 0; i++) {
         arrKey[i] = arrSum[0];
         arrSum.shift();
-        var n = Math.floor(Math.random() * arrSum.length + 1)-1;
+        var n = Math.floor(Math.random() * arrSum.length + 1) - 1;
         arrValue[i] = arrSum[n];
-        arrSum.splice(n,1);
+        arrSum.splice(n, 1);
     }
 }
+
 //把两个数组的值合并成键值对到一个json数组
 function toJson(arrKey, arrValue, arrJson) {
-    for(var i=0;i<arrKey.length;i++){
-        var key=arrKey[i];
-        var val=arrValue[i];
-        var obj={};
-        obj[key]=val;
+    for (var i = 0; i < arrKey.length; i++) {
+        var key = arrKey[i];
+        var val = arrValue[i];
+        var obj = {};
+        obj[key] = val;
         arrJson.push(obj)
     }
 }
-function evenMatch(onlineUsers,userKey,userValue,userJson) {
+
+function evenMatch(onlineUsers, userKey, userValue, userJson) {
     //把userOnine数组的值随机分配到userKey,userValue两个数组里
-    toTwoArray(onlineUsers,userKey,userValue);
+    toTwoArray(onlineUsers, userKey, userValue);
     //把userKey,userValue数组的值合并成键值对到userJson数组
-    toJson(userKey,userValue,userJson);
+    toJson(userKey, userValue, userJson);
     //打印userJson
-    for(var i=0;i<userJson.length;i++){
-        for(var key in userJson[i]){
-            console.log(key+':'+userJson[i][key]);
+    for (var i = 0; i < userJson.length; i++) {
+        for (var key in userJson[i]) {
+            console.log(key + ':' + userJson[i][key]);
         }
     }
     io.emit('randomChat', {
-        userJson:userJson,
-        threeUsers:['1a!.A','1a!.A','1a!.A']
+        userJson: userJson,
+        threeUsers: ['1a!.A', '1a!.A', '1a!.A']
     });
 
     onlineUsers.splice(0, onlineUsers.length);
@@ -158,21 +162,59 @@ function evenMatch(onlineUsers,userKey,userValue,userJson) {
     userValue.splice(0, userValue.length);
     userJson.splice(0, userJson.length);
 }
+
 //随机抽取onlineUsers的3个对象放到threeUers里
-function unevenMatch(onlineUsers,threeUers) {
-    for (var i=0; i<3; i++){
-        var n = Math.floor(Math.random() * onlineUsers.length + 1)-1;
+function unevenMatch(onlineUsers, threeUers) {
+    for (var i = 0; i < 3; i++) {
+        var n = Math.floor(Math.random() * onlineUsers.length + 1) - 1;
         var value = onlineUsers[n];
         threeUers.push(value)
-        onlineUsers.splice(n,1);
+        onlineUsers.splice(n, 1);
     }
     io.emit('randomChat', {
-        userJson:userJson,
-        threeUsers:threeUers
+        userJson: userJson,
+        threeUsers: threeUers
     });
     //打印threeUsers
-    console.log('threeUsers['+threeUers[0]+','+threeUers[1]+','+threeUers[2]+']');
+    console.log('threeUsers[' + threeUers[0] + ',' + threeUers[1] + ',' + threeUers[2] + ']');
     threeUers.splice(0, threeUers.length);
+}
+
+//总分配函数
+function allMatch(onlineUsers, userKey, userValue, userJson, threeUsers) {
+    //检测onlineUser的人数
+    if (onlineUsers.length < 2) {
+        console.log('people not enough ')
+        return;
+    }
+    else {
+        if (onlineUsers.length == 2) {
+            //2人分配
+            console.log('2人分配');
+            evenMatch(onlineUsers, userKey, userValue, userJson);
+            return;
+        }
+        else if (onlineUsers.length == 3) {
+            //3人分配
+            console.log('3人分配');
+            unevenMatch(onlineUsers, threeUsers);
+            onlineUsers.splice(0, onlineUsers.length);
+            return;
+        }
+        else if (onlineUsers.length > 2 && onlineUsers.length % 2 == 0) {
+            //2人以上偶数分配
+            console.log('2人以上偶数分配');
+            evenMatch(onlineUsers, userKey, userValue, userJson);
+            return;
+        }
+        else {
+            //3人分配后偶数分配
+            console.log('3人分配后偶数分配');
+            unevenMatch(onlineUsers, threeUsers);
+            evenMatch(onlineUsers, userKey, userValue, userJson);
+            return;
+        }
+    }
 }
 
 
