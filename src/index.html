@@ -3,7 +3,7 @@
 <script type="text/javascript" src="../lrz/dist/lrz.all.bundle.js"></script>
 <script>
     //分隔符
-    var separator = "AND";
+    var separator = "、";
     //把target对象设在最外面
     var target = null;
     /*
@@ -25,8 +25,7 @@
         var self = this;
         var xtpl = [
             '<div class="chatroom">',
-            '<div class="chatroom-feedback"><a href="https://github.com/barretlee/blogChat" target="_blank">源码</a> | <a href="https://github.com/barretlee/blogChat/issues/new" target="_blank">反馈</a></div>',
-            '<div class="chatroom-info"></div>',
+            '<div class="chatroom-feedback"><a href="https://github.com/kakakoko/Random-Chat" target="_blank">源码</a> | <a href="https://github.com/barretlee/blogChat/issues/new" target="_blank">反馈</a></div>',
             '<ul class="chatroom-tribes">',
             '<li class="chatroom-tribe current" data-id="group">',
             '<span class="name">当前 <strong>0</strong> 人群聊</span>',
@@ -38,8 +37,12 @@
             '<div class="chatroom-item current" data-id="group">',
             '</div>',
             '</div>',
-            '<input type="file" id="picture">',
-            '<div class="chatroom-pannel-ft"><textarea type="text" class="chatroom-input" placeholder="按 Ctrl+Enter 发送"></textarea><span class="chatroom-send-btn">发送</span></div>',
+            '<a href="javascript:;" class="file">选择图片\n',
+            '<input type="file" name="pictureName" id="picture">\n',
+            '</a>',
+            '<div class="chatroom-pannel-ft">',
+            '<div class="textarea-div"><textarea type="text" class="chatroom-input" placeholder="按 Ctrl+Enter 发送"></textarea></div>',
+            '<div class="span-div"><span class="chatroom-send-btn">发送</span></div></div>',
             '</div>',
             '</div>'
         ].join('\n');
@@ -49,6 +52,7 @@
         //实现发送图片的逻辑
         var showbox = document.getElementById('chatroom-pannels');
         document.querySelector('#picture').addEventListener('change', function () {
+            var $this = $(this);
             var file = this.files[0];       //得到该图片
             //width设置图片宽度
             lrz(file, {width: 200})
@@ -68,6 +72,8 @@
                         self.socket.emit(targetName == 'group' ? 'gm' : 'pm', data);
                         //把自己写的聊天消息添加到自己的聊天框上
                         self.addChatLog(data, true, true);
+                        //修复重复选择同一文件时不触发change事件的问题
+                        $this.val('');
                     };
                     return rst;
                 })
@@ -181,16 +187,24 @@
     ChatRoomClient.prototype.changeName = function () {
         var self = this;
         var str = '<div class="chatroom-rename" style="display:none;"><label>取个名字：</label><input type="text" ' +
-            'placeholder="请取英文名字！"><span>确认</span></div>';
+            'placeholder="请取名字！"><span>确认</span></div>';
         $(str).appendTo($('.chatroom')).fadeIn();
         $('.chatroom-rename span').on('click', function () {
             var $input = $('.chatroom-rename input');
+
             if ($.trim($input.val())) {
-                self.userName = $.trim($input.val()).slice(0, 12);
-                self.socket.emit('createUser', {
-                    userName: self.userName
-                });
-                $('.chatroom-rename').remove();
+                //用户名不能输入顿号
+                if ($input.val().indexOf('、') != -1) {
+                    alert('不能输入顿号：「、」');
+                    $input.val('').focus();
+                }
+                else {
+                    self.userName = $.trim($input.val()).slice(0, 12);
+                    self.socket.emit('createUser', {
+                        userName: self.userName
+                    });
+                    $('.chatroom-rename').remove();
+                }
             }
         });
     };
@@ -329,27 +343,6 @@
         right: 42px;
     }
 
-    .chatroom-info {
-        position: absolute;
-        right: 10px;
-        top: 6px;
-        cursor: pointer;
-        z-index: 12;
-    }
-
-    .chatroom-info:after {
-        content: '[收起]';
-        color: #F40;
-    }
-
-    .chatroom-fold .chatroom-info:after {
-        content: '[展开]';
-        color: #F40;
-        z-index: 10;
-        position: relative;
-        top: 5px;
-    }
-
     /*没有了chatroom-info的话最小化后会在中间显示*/
     .chatroom-fold .chatroom-info {
         right: 412px;
@@ -442,11 +435,13 @@
     .chatroom-pannels {
         float: left;
         width: 400px;
-        height: 350px;
+        /*        原来高度350px*/
+        height: 300px;
     }
 
     .chatroom-pannel-bd {
-        height: 340px;
+        /*        原来高度340px*/
+        height: 290px;
         background: #f2f2f5;
         overflow-y: auto;
     }
@@ -464,6 +459,19 @@
         border-top: 1px #d9d9d9 solid;
         position: relative;
         height: 60px;
+    }
+
+    .file-div {
+        position: relative;
+        height: 10px;
+    }
+
+    .textarea-div {
+        height: 40px;
+    }
+
+    .textarea-div {
+        height: 10px;
     }
 
     .chatroom-pannel-ft textarea {
@@ -692,9 +700,11 @@
         z-index: 0;
         float: right;
         width: 70px;
+        /*原来height: 40px;*/
         height: 40px;
         background: #EEE;
         text-align: center;
+        /*原来line-height: 40px;*/
         line-height: 40px;
         top: 10px;
         font-size: 14px;
@@ -706,5 +716,34 @@
     .chatroom-send-btn:hover {
         background: #CCC;
         transition: all 0.3s;
+    }
+
+    .file {
+        position: relative;
+        display: inline-block;
+        background: #D0EEFF;
+        border: 1px solid #99D3F5;
+        border-radius: 4px;
+        padding: 4px 12px;
+        overflow: hidden;
+        color: #1E88C7;
+        text-decoration: none;
+        text-indent: 0;
+        line-height: 20px;
+    }
+
+    .file input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+    }
+
+    .file:hover {
+        background: #AADFFD;
+        border-color: #78C3F3;
+        color: #004974;
+        text-decoration: none;
     }
 </style>
