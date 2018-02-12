@@ -59,9 +59,11 @@ io.on('connection', function (socket) {
         onlineUsers.push(userName);
         //启动broadcast广播函数，用于广播新连接用户信息给各个客户端广播函数
         io.emit('broadcast', {
-            userName: userName
+            userName: userName,
+            onlineUsersSize:onlineUsers.length
         });
-        console.log(userName);
+        console.log('新用户登录：' + userName);
+        console.log('在线人数：' + onlineUsers.length);
     });
     //启动pm响应函数，用于接收客户端的私聊信息
     socket.on('pm', function (data) {
@@ -91,7 +93,7 @@ var longInterval = setInterval(
     function () {
         console.log('长间隔开始：'+ new Date().toLocaleTimeString());
         //短间隔总分配次数：2
-        var shortTimes = 1;//1次
+        var shortTimes = 2;//1次（测试用）
         //计数器
         var times = 0;
         //短间隔定时，每10分钟调用一次
@@ -113,6 +115,10 @@ var longInterval = setInterval(
                 var TIME_AFTER_CHECKONLINE = 0.5 * 60 * 1000;//6秒（测试用）
                 //checkOnLine一分钟后再开始分配
                 var checkOnLineAfter = setTimeout(function () {
+                    //分配前统计在线人数
+                    io.emit('beforeMatchSize', {
+                        onlineUsersSize:onlineUsers.length
+                    });
                     //分配聊天
                     allMatch(onlineUsers, userKey, userValue, userJson, threeUsers);
                     //记录当前时间戳
