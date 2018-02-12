@@ -16,7 +16,10 @@
         this.startup();
         //启动一堆JQuery函数
         this.bindEvent();
+        //启动关于连接的函数
+        this.connection();
     };
+
     /*    初始化聊天窗口
         broadcast响应函数:用于接收新连接用户的信息
         changeName():弹出输入用户名窗口
@@ -87,8 +90,15 @@
         });
 
         self.socket.on('broadcast', function (data) {
+            //统计在线人数
+            $('.chatroom-tribe[data-id="group"] .name strong').text(data.onlineUsersSize);
             //通知新连接用户的信息
             self.addWelcomeLog(data);
+        });
+        //分配时在线人数
+        self.socket.on('beforeMatchSize', function (data) {
+            //统计在线人数
+            $('.chatroom-tribe[data-id="group"] .name strong').text(data.onlineUsersSize);
         });
         //弹出输入用户名窗口
         self.changeName();
