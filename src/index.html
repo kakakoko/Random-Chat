@@ -169,8 +169,14 @@
                     self.addChatLog(data, false);
                 }
             }
-        })
-    }
+        });
+        //启动checkOnLine响应函数，用于告诉服务器是否在线
+        self.socket.on('checkOnLine', function (data) {
+            self.socket.emit('checkOnLine', {
+                userName: self.userName
+            });
+        });
+    };
     //弹出输入用户名窗口
     ChatRoomClient.prototype.changeName = function () {
         var self = this;
@@ -237,7 +243,8 @@
             var $log = logXtpl.join('\n');
             var $target = $(".chatroom-item[data-id='" + data.targetName + "']");
             return $target.append($log);
-        };
+        }
+        ;
 
         var logXtpl = [
             '<div class="chatroom-log' + (isSelf ? ' myself' : '') + '">',
