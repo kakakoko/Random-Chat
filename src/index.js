@@ -10,7 +10,7 @@ var userJson = [];
 var threeUsers = [];
 
 //分隔符
-var separator = "AND";
+var separator = "、";
 var PORT = 30001;
 //乱码
 var NOT_FOUNT_MSG = '卡卡提醒您：404 了！';
@@ -86,21 +86,23 @@ io.on('connection', function (socket) {
 
 })
 //长间隔定时，每1小时调用一次
-var LONG_DELTA = 60 * 60 * 1000;
+var LONG_DELTA = 60 * 60 * 1000;//1分钟（测试用）
 var longInterval = setInterval(
     function () {
+        console.log('长间隔开始：'+ new Date().toLocaleTimeString());
         //短间隔总分配次数：2
-        var shortTimes = 2;
+        var shortTimes = 1;//1次
         //计数器
         var times = 0;
         //短间隔定时，每10分钟调用一次
-        var SHORT_DELTA = 10 * 60 * 1000;
+        var SHORT_DELTA = 10 * 60 * 1000;//30秒（测试用）
         var shortInterval = setInterval(
             function () {
                 //如果短间隔次数大于总分配次数，跳出
                 if (times > shortTimes - 1) {
-                    return;
+                    return clearInterval(shortInterval);
                 }
+                console.log('短间隔开始：'+ new Date().toLocaleTimeString());
                 //短间隔分配次数+1
                 times++;
                 //清空onlineUser
@@ -108,7 +110,7 @@ var longInterval = setInterval(
                 //服务器发送广播函数checkOnLine（）
                 io.emit('checkOnLine', {});
                 //checkOnLine后的等待30秒再分配
-                var TIME_AFTER_CHECKONLINE = 0.5 * 60 * 1000;
+                var TIME_AFTER_CHECKONLINE = 0.5 * 60 * 1000;//6秒（测试用）
                 //checkOnLine一分钟后再开始分配
                 var checkOnLineAfter = setTimeout(function () {
                     //分配聊天
