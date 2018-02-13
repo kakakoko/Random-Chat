@@ -106,11 +106,14 @@
                 for (var i = 0; i < data.userJson.length; i++) {
                     for (var key in data.userJson[i]) {
                         if (key == self.userName) {
-                            //alert(typeof(key));
+                            //弹窗告诉分配对象
+                            alert('在' + new Date().toLocaleTimeString() + '时刻您与「' + data.userJson[i][key] + '」被分在了一组');
                             //在左边消息栏添加li元素聊天对象，右边聊天框添加div，并把该li和div设为当前对象
                             return self.createPrivateChat(data.userJson[i][key], true);
                         }
                         if (data.userJson[i][key] == self.userName) {
+                            //弹窗告诉分配对象
+                            alert('在' + new Date().toLocaleTimeString() + '时刻您与「' + key + '」被分在了一组');
                             return self.createPrivateChat(key, true);
                         }
                     }
@@ -119,14 +122,20 @@
             else {
                 if (data.threeUsers[0] == self.userName) {
                     target = data.threeUsers[1] + separator + data.threeUsers[2];
+                    //弹窗告诉分配对象
+                    alert('在' + new Date().toLocaleTimeString() + '时刻您与「' + target + '」被分在了一组');
                     return self.createPrivateChat(target, true);
                 }
                 if (data.threeUsers[1] == self.userName) {
                     target = data.threeUsers[0] + separator + data.threeUsers[2];
+                    //弹窗告诉分配对象
+                    alert('在' + new Date().toLocaleTimeString() + '时刻您与「' + target + '」被分在了一组');
                     return self.createPrivateChat(target, true);
                 }
                 if (data.threeUsers[2] == self.userName) {
                     target = data.threeUsers[0] + separator + data.threeUsers[1];
+                    //弹窗告诉分配对象
+                    alert('在' + new Date().toLocaleTimeString() + '时刻您与「' + target + '」被分在了一组');
                     return self.createPrivateChat(target, true);
                 }
             }
@@ -228,6 +237,17 @@
     //右边chatroom-pannel-bd的聊天框上添加<div class="chatroom-item" data-id='target'></div>元素，
     // 如果setCurrent为true，并把该li和div设为当前对象
     ChatRoomClient.prototype.createPrivateChat = function (target, setCurrent) {
+        //如果已经创建过聊天对象target的窗口，则不再创建
+        if ($('.chatroom-item[data-id="' + target + '"]').size()) {
+            //把分配的li元素和div设为当前对象
+            if (setCurrent) {
+                $('.chatroom-tribe').removeClass('current');
+                $('.chatroom-item').removeClass('current');
+                $('.chatroom-tribe[data-id="' + target + '"]').addClass('current');
+                $('.chatroom-item[data-id="' + target + '"]').addClass('current');
+                return;
+            }
+        }
         var tabXtpl = [
             '<li class="chatroom-tribe" data-id=' + target + '>',
             '<span class="name">' + target,
@@ -281,6 +301,7 @@
     //一堆JQuery函数
     ChatRoomClient.prototype.bindEvent = function () {
         var self = this;
+        //ctrl+enter发送消息
         $('.chatroom-input').on('keydown', function (evt) {
             var $this = $(this);
             if ((evt.ctrlKey || evt.metaKey) && evt.keyCode == '13' && $.trim($this.val()) || evt.isTrigger) {
@@ -300,6 +321,26 @@
                 $this.val('').focus();
                 return false;
             }
+        });
+        //切换窗口
+        $('.chatroom-tribes').on('click', 'li', function (evt) {
+            evt.preventDefault();
+            var id = $(this).attr('data-id');
+            var $target = $('.chatroom-item[data-id="' + id + '"]');
+            $('.chatroom-tribes').find('li').removeClass('current');
+            $('.chatroom-item').removeClass('current');
+            $(this).addClass('current');
+            //拉轴和消息数量相关
+            $target.addClass('current');
+            /*            $target.addClass('current').scrollTop(1E5);
+                       $(this).find('.count').text(0).css('visibility', 'hidden');
+                       var count = parseInt($(this).find('.count').text());
+                       count = isNaN(count) ? 0 : +count;
+                       this.totalCount -= count;
+                       setTimeout(function() {
+                           $('.chatroom textarea').focus();
+                       }, 10);
+                       $('.chatroom-pannel-bd').scrollTop($target.attr('data-lastscroll'));*/
         });
     };
     window.chatRoomClient = new ChatRoomClient();
