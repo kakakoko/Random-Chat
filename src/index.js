@@ -60,7 +60,7 @@ io.on('connection', function (socket) {
         //启动broadcast广播函数，用于广播新连接用户信息给各个客户端广播函数
         io.emit('broadcast', {
             userName: userName,
-            onlineUsersSize:onlineUsers.length
+            onlineUsersSize: onlineUsers.length
         });
         console.log('新用户登录：' + userName);
         console.log('在线人数：' + onlineUsers.length);
@@ -82,16 +82,17 @@ io.on('connection', function (socket) {
     //启动checkOnLine响应函数，用于接收客户端的在线信息
     socket.on('checkOnLine', function (data) {
         var userName = data.userName;
-        //把在线的用户信息存到onlineUser
-        onlineUsers.push(userName);
+        //把在线且不为null的用户（已输入用户名）信息存到onlineUser
+        if (userName != null) {
+            onlineUsers.push(userName);
+        }
     });
-
 })
 //长间隔定时，每1小时调用一次
 var LONG_DELTA = 60 * 60 * 1000;//1分钟（测试用）
 var longInterval = setInterval(
     function () {
-        console.log('长间隔开始：'+ new Date().toLocaleTimeString());
+        console.log('长间隔开始：' + new Date().toLocaleTimeString());
         //短间隔总分配次数：2
         var shortTimes = 2;//1次（测试用）
         //计数器
@@ -104,7 +105,7 @@ var longInterval = setInterval(
                 if (times > shortTimes - 1) {
                     return clearInterval(shortInterval);
                 }
-                console.log('短间隔开始：'+ new Date().toLocaleTimeString());
+                console.log('短间隔开始：' + new Date().toLocaleTimeString());
                 //短间隔分配次数+1
                 times++;
                 //清空onlineUser
@@ -117,7 +118,7 @@ var longInterval = setInterval(
                 var checkOnLineAfter = setTimeout(function () {
                     //分配前统计在线人数
                     io.emit('beforeMatchSize', {
-                        onlineUsersSize:onlineUsers.length
+                        onlineUsersSize: onlineUsers.length
                     });
                     //分配聊天
                     allMatch(onlineUsers, userKey, userValue, userJson, threeUsers);
@@ -224,5 +225,4 @@ function allMatch(onlineUsers, userKey, userValue, userJson, threeUsers) {
         }
     }
 }
-
 
