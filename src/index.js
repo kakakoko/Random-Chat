@@ -55,15 +55,25 @@ io.on('connection', function (socket) {
     //启动createUser响应函数，用于响应客户端创建用户名
     socket.on('createUser', function (data) {
         var userName = data.userName;
-        //把新连接的用户信息存到onlineUser
-        onlineUsers.push(userName);
-        //启动broadcast广播函数，用于广播新连接用户信息给各个客户端广播函数
-        io.emit('broadcast', {
-            userName: userName,
-            onlineUsersSize: onlineUsers.length
-        });
-        console.log('新用户登录：' + userName);
-        console.log('在线人数：' + onlineUsers.length);
+        //检查是否有重名
+        var userNameIsExist = in_array(onlineUsers, userName);
+        console.log('是否重名：' + userNameIsExist);
+        if (userNameIsExist) {
+            socket.emit('createUser', {userNameIsExist: true});
+        }
+        else {
+            socket.emit('createUser', {userNameIsExist: false});
+            //把新连接的用户信息存到onlineUser
+            onlineUsers.push(userName);
+            //启动broadcast广播函数，用于广播新连接用户信息给各个客户端广播函数
+            io.emit('broadcast', {
+                userName: userName,
+                onlineUsersSize: onlineUsers.length
+            });
+            console.log('新用户登录：' + userName);
+            console.log('在线人数：' + onlineUsers.length);
+        }
+
     });
     //启动pm响应函数，用于接收客户端的私聊信息
     socket.on('pm', function (data) {
@@ -72,6 +82,16 @@ io.on('connection', function (socket) {
             console.log(data.targetName);
         }
         io.emit('pm', {
+            msg: data.msg,
+            userName: data.userName,
+            targetName: data.targetName,
+            isPicture: data.isPicture,
+            img01: data.img01
+        });
+    });
+    //启动gm响应函数，用于接收客户端的群聊信息
+    socket.on('gm', function (data) {
+        io.emit('gm', {
             msg: data.msg,
             userName: data.userName,
             targetName: data.targetName,
@@ -89,7 +109,7 @@ io.on('connection', function (socket) {
     });
 })
 //长间隔定时，每1小时调用一次
-var LONG_DELTA = 60 * 60 * 1000;//1分钟（测试用）
+var LONG_DELTA = 25 * 60 * 1000;//1分钟（测试用）
 var longInterval = setInterval(
     function () {
         console.log('长间隔开始：' + new Date().toLocaleTimeString());
@@ -224,5 +244,15 @@ function allMatch(onlineUsers, userKey, userValue, userJson, threeUsers) {
             return;
         }
     }
+}
+
+//检查一个数组是否有某个值
+function in_array(arr, element) {
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i] == element) {
+            return true;
+        }
+    }
+    return false;
 }
 
