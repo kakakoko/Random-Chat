@@ -29,7 +29,7 @@
             '<div class="chatroom-feedback"><a href="https://github.com/kakakoko/Random-Chat" target="_blank">源码</a> | <a href="https://github.com/barretlee/blogChat/issues/new" target="_blank">反馈</a></div>',
             '<ul class="chatroom-tribes">',
             '<li class="chatroom-tribe current" data-id="group">',
-            '<span class="name">当前 <strong>0</strong> 人群聊</span>',
+            '<span class="name">当前 <strong>0</strong> 人在线</span>',
             '<span class="count">0</span>',
             '</li>',
             '</ul>',
@@ -59,7 +59,7 @@
             lrz(file, {width: 200})
                 .then(function (rst) {
                     // 处理成功会执行
-                    alert('压缩前大小：' + file.size / 1024 + 'kb' + '；压缩后大小：' + rst.file.size / 1024 + 'kb');
+                    //alert('压缩前大小：' + file.size / 1024 + 'kb' + '；压缩后大小：' + rst.file.size / 1024 + 'kb');
                     var img = new Image();
                     img.src = rst.base64;
                     img.onload = function () {
@@ -174,6 +174,7 @@
             else {
                 //判断是不是指定的聊天对象
                 if (data.targetName != self.userName) return;
+                //判断是不是图片
                 if (data.isPicture == true) {
                     data = {
                         userName: data.userName,
@@ -193,6 +194,20 @@
                 }
             }
         });
+        //启动gm响应函数，用于接收服务端的群聊信息
+        self.socket.on('gm', function (data) {
+            if (data.userName == self.userName) {
+                return;
+            }
+            //判断是不是图片
+            if (data.isPicture == true) {
+                self.addChatLog(data, false, true);
+            }
+            else {
+                self.addChatLog(data, false);
+            }
+        });
+
         //启动checkOnLine响应函数，用于告诉服务器是否在线
         self.socket.on('checkOnLine', function (data) {
             self.socket.emit('checkOnLine', {
@@ -210,17 +225,26 @@
             var $input = $('.chatroom-rename input');
 
             if ($.trim($input.val())) {
+                var name = $.trim($input.val()).slice(0, 12);
                 //用户名不能输入顿号
                 if ($input.val().indexOf('、') != -1) {
                     alert('不能输入顿号：「、」');
                     $input.val('').focus();
                 }
                 else {
-                    self.userName = $.trim($input.val()).slice(0, 12);
                     self.socket.emit('createUser', {
-                        userName: self.userName
+                        userName: name
                     });
-                    $('.chatroom-rename').remove();
+                    //检查是否有重名
+                    self.socket.on('createUser', function (data) {
+                        if (data.userNameIsExist) {
+                            alert('该名字已被采用,请另谋高名');
+                            $input.val('').focus();
+                        } else {
+                            self.userName = name;
+                            $('.chatroom-rename').remove();
+                        }
+                    });
                 }
             }
         });
@@ -284,7 +308,10 @@
             ];
             var $log = logXtpl.join('\n');
             var $target = $(".chatroom-item[data-id='" + data.targetName + "']");
-            return $target.append($log);
+            $target.append($log);
+            //拉轴拉到最底
+            this.scroll(data.targetName, isSelf);
+            return;
         }
         ;
 
@@ -297,7 +324,21 @@
         var $log = logXtpl.join('\n');
         var $target = $(".chatroom-item[data-id='" + data.targetName + "']");
         $target.append($log);
+        //拉轴拉到最底
+        this.scroll(data.targetName, isSelf);
     };
+    //拉轴
+    ChatRoomClient.prototype.scroll = function (userName, isSelf) {
+        var $target = $(".chatroom-item[data-id='" + userName + "']");
+        var $box = $('.chatroom-pannel-bd');
+        var H = $target.height();
+        var DELTA = 300;
+        var flag = isSelf || $box.scrollTop() < H - DELTA;
+        if (flag) {
+            $box.scrollTop(H);
+            $target.attr('data-lastscroll', H);
+        }
+    }
     //一堆JQuery函数
     ChatRoomClient.prototype.bindEvent = function () {
         var self = this;
@@ -322,6 +363,12 @@
                 return false;
             }
         });
+        //按发送键发送信息
+        $('.chatroom-send-btn').on('click', function (evt) {
+            if ($.trim($('.chatroom-input').val())) {
+                $('.chatroom-input').trigger('keydown');
+            }
+        });
         //切换窗口
         $('.chatroom-tribes').on('click', 'li', function (evt) {
             evt.preventDefault();
@@ -331,7 +378,7 @@
             $('.chatroom-item').removeClass('current');
             $(this).addClass('current');
             //拉轴和消息数量相关
-            $target.addClass('current');
+            $target.addClass('current').scrollTop(1E5);
             /*            $target.addClass('current').scrollTop(1E5);
                        $(this).find('.count').text(0).css('visibility', 'hidden');
                        var count = parseInt($(this).find('.count').text());
