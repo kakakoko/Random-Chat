@@ -8,6 +8,9 @@ var userKey = [];
 var userValue = [];
 var userJson = [];
 var threeUsers = [];
+//开始时间，当前时间
+var startTime = new Date().getMinutes();
+var currentTime = null;
 
 //分隔符
 var separator = "、";
@@ -108,17 +111,50 @@ io.on('connection', function (socket) {
         }
     });
 })
-//长间隔定时，每1小时调用一次
-var LONG_DELTA = 25 * 60 * 1000;//1分钟（测试用）
+//每15秒一次，告诉客户端还有多少分钟开始分配
+var EVERY_MINUTE_DELTA = 0.25 * 60 * 1000;
+var everyMinuteInterval = setInterval(function () {
+    currentTime = new Date().getMinutes();
+    console.log('现在的分钟数：'+currentTime);
+    var restTime = null;
+    if (0<=startTime<=30){
+        if (currentTime<=startTime){
+            restTime=startTime-currentTime;
+        }
+        else if((startTime<currentTime)&&(currentTime<=startTime+30)){
+            restTime = startTime+30-currentTime
+        }
+        else {
+            restTime = startTime+60-currentTime;
+        }
+    }
+    else {
+        if (currentTime<=startTime-30){
+            restTime = startTime-30-currentTime;
+        }
+        else if ((startTime-30<currentTime)&&(currentTime<=startTime+30)){
+            restTime = startTime - currentTime;
+        }
+        else {
+            restTime = 30 - (currentTime-startTime);
+        }
+
+    }
+    console.log('距离下次分配分钟数'+restTime);
+    restTimeCal(restTime);
+}, EVERY_MINUTE_DELTA);
+//长间隔定时，每半小时调用一次
+var longMinute = 30;
+var LONG_DELTA = longMinute * 60 * 1000;//1分钟（测试用）
 var longInterval = setInterval(
     function () {
         console.log('长间隔开始：' + new Date().toLocaleTimeString());
-        //短间隔总分配次数：2
-        var shortTimes = 2;//1次（测试用）
+        //短间隔总分配次数：1
+        var shortTimes = 1;//1次（测试用）
         //计数器
         var times = 0;
-        //短间隔定时，每10分钟调用一次
-        var SHORT_DELTA = 10 * 60 * 1000;//30秒（测试用）
+        //短间隔定时，每20秒调用一次
+        var SHORT_DELTA = 20 * 1000;//30秒（测试用）
         var shortInterval = setInterval(
             function () {
                 //如果短间隔次数大于总分配次数，跳出
@@ -132,8 +168,8 @@ var longInterval = setInterval(
                 onlineUsers.splice(0, onlineUsers.length);
                 //服务器发送广播函数checkOnLine（）
                 io.emit('checkOnLine', {});
-                //checkOnLine后的等待30秒再分配
-                var TIME_AFTER_CHECKONLINE = 0.5 * 60 * 1000;//6秒（测试用）
+                //checkOnLine后的等待15秒再分配
+                var TIME_AFTER_CHECKONLINE = 15 * 1000;//6秒（测试用）
                 //checkOnLine一分钟后再开始分配
                 var checkOnLineAfter = setTimeout(function () {
                     //分配前统计在线人数
@@ -254,5 +290,12 @@ function in_array(arr, element) {
         }
     }
     return false;
+}
+
+//发送剩余时间函数
+function restTimeCal(restTime) {
+    io.emit('restTime', {
+        restTime: restTime
+    });
 }
 
