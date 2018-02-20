@@ -1,845 +1,301 @@
-<script src="http://cdn.staticfile.org/socket.io/1.3.7/socket.io.js"></script>
-<script src="http://cdn.staticfile.org/jquery/2.2.1/jquery.min.js"></script>
-<script type="text/javascript" src="../lrz/dist/lrz.all.bundle.js"></script>
-<script>
-    //分隔符
-    var separator = "、";
-    //把target对象设在最外面
-    var target = null;
-    /*
-    io.connect():向服务端发起连接请求
-    */
-    var ChatRoomClient = function () {
-        this.userName = null;
-        this.socket = io.connect();
-        //初始化界面
-        this.startup();
-        //启动一堆JQuery函数
-        this.bindEvent();
-    };
+var fs = require('fs');
+var path = require('path');
+var url = require('url');
 
-    /*    初始化聊天窗口
-        broadcast响应函数:用于接收新连接用户的信息
-        changeName():弹出输入用户名窗口
-        */
-    ChatRoomClient.prototype.startup = function () {
-        var self = this;
-        var xtpl = [
-            '<div class="chatroom">',
-            '<div class="chatroom-feedback"><a href="https://github.com/kakakoko/Random-Chat" target="_blank">源码</a> | <a href="https://github.com/kakakoko/Random-Chat/issues/new" target="_blank">反馈</a></div>',
-            '<ul class="chatroom-tribes">',
-            '<li class="chatroom-tribe current" data-id="group">',
-            '<span class="name">当前 <strong>0</strong> 人在线</span>',
-            '<span class="count">0</span>',
-            '</li>',
-            '</ul>',
-            '<div class="chatroom-pannels" id="chatroom-pannels">',
-            '<div class="chatroom-pannel-bd">',
-            '<div class="chatroom-item current" data-id="group">',
-            '</div>',
-            '</div>',
-            '<a href="javascript:;" class="file">选择图片\n',
-            '<input type="file" name="pictureName" id="picture">\n',
-            '</a>',
-            '<div class="chatroom-pannel-ft">',
-            '<div class="textarea-div"><textarea type="text" class="chatroom-input" placeholder="按 Ctrl+Enter 发送"></textarea></div>',
-            '<div class="span-div"><span class="chatroom-send-btn">发送</span></div></div>',
-            '</div>',
-            '</div>'
-        ].join('\n');
-        $('html').append(xtpl);
-        //broadcast响应函数:用于接收新连接用户的信息
+//创建onlineUser,userKey,userValue,userJson的数组和
+var onlineUsers = [];
+var userKey = [];
+var userValue = [];
+var userJson = [];
+var threeUsers = [];
+//开始时间，当前时间
+var startTime = new Date().getMinutes();
+var currentTime = null;
 
-        //实现发送图片的逻辑
-        var showbox = document.getElementById('chatroom-pannels');
-        document.querySelector('#picture').addEventListener('change', function () {
-            var $this = $(this);
-            var file = this.files[0];       //得到该图片
-            //width设置图片宽度
-            lrz(file, {width: 200})
-                .then(function (rst) {
-                    // 处理成功会执行
-                    //alert('压缩前大小：' + file.size / 1024 + 'kb' + '；压缩后大小：' + rst.file.size / 1024 + 'kb');
-                    var img = new Image();
-                    img.src = rst.base64;
-                    img.onload = function () {
-                        var targetName = $('.chatroom-tribe.current').attr('data-id');
-                        var data = {
-                            img01: img.src,
-                            userName: self.userName,
-                            targetName: targetName,
-                            isPicture: true
-                        };
-                        self.socket.emit(targetName == 'group' ? 'gm' : 'pm', data);
-                        //把自己写的聊天消息添加到自己的聊天框上
-                        self.addChatLog(data, true, true);
-                        //修复重复选择同一文件时不触发change事件的问题
-                        $this.val('');
-                    };
-                    return rst;
-                })
-                .catch(function (err) {
-                    // 处理失败会执行
-                    alert('fail');
-                })
-                .always(function () {
-                    // 不管是成功失败，都会执行
-                });
-        });
+//分隔符
+var separator = "、";
+var PORT = 30001;
+//乱码
+var NOT_FOUNT_MSG = '卡卡提醒您：404 了！';
+//创建服务器
+var app = require('http').createServer(router);
+var io = require('socket.io')(app);
+app.listen(PORT, function () {
+    console.log('run at: http://127.0.0.1:' + PORT);
+});
 
-        self.socket.on('broadcast', function (data) {
-            //统计在线人数
-            $('.chatroom-tribe[data-id="group"] .name strong').text(data.onlineUsersSize);
-            //通知新连接用户的信息
-            self.addWelcomeLog(data);
-        });
-        //分配时在线人数
-        self.socket.on('beforeMatchSize', function (data) {
-            //统计在线人数
-            $('.chatroom-tribe[data-id="group"] .name strong').text(data.onlineUsersSize);
-        });
-        //弹出输入用户名窗口
-        self.changeName();
-        //启动randomChat响应函数
-        self.socket.on('randomChat', function (data) {
-            if (data.threeUsers[0] != self.userName && data.threeUsers[1] != self.userName && data.threeUsers[2] != self.userName) {
-                for (var i = 0; i < data.userJson.length; i++) {
-                    for (var key in data.userJson[i]) {
-                        if (key == self.userName) {
-                            //弹窗告诉分配对象
-                            alert('在' + new Date().toLocaleTimeString() + '时刻您与「' + data.userJson[i][key] + '」被分在了一组');
-                            //在左边消息栏添加li元素聊天对象，右边聊天框添加div，并把该li和div设为当前对象
-                            return self.createPrivateChat(data.userJson[i][key], true);
-                        }
-                        if (data.userJson[i][key] == self.userName) {
-                            //弹窗告诉分配对象
-                            alert('在' + new Date().toLocaleTimeString() + '时刻您与「' + key + '」被分在了一组');
-                            return self.createPrivateChat(key, true);
-                        }
-                    }
-                }
-            }
-            else {
-                if (data.threeUsers[0] == self.userName) {
-                    target = data.threeUsers[1] + separator + data.threeUsers[2];
-                    //弹窗告诉分配对象
-                    alert('在' + new Date().toLocaleTimeString() + '时刻您与「' + target + '」被分在了一组');
-                    return self.createPrivateChat(target, true);
-                }
-                if (data.threeUsers[1] == self.userName) {
-                    target = data.threeUsers[0] + separator + data.threeUsers[2];
-                    //弹窗告诉分配对象
-                    alert('在' + new Date().toLocaleTimeString() + '时刻您与「' + target + '」被分在了一组');
-                    return self.createPrivateChat(target, true);
-                }
-                if (data.threeUsers[2] == self.userName) {
-                    target = data.threeUsers[0] + separator + data.threeUsers[1];
-                    //弹窗告诉分配对象
-                    alert('在' + new Date().toLocaleTimeString() + '时刻您与「' + target + '」被分在了一组');
-                    return self.createPrivateChat(target, true);
-                }
-            }
-        });
-        //启动pm响应函数，用于接收服务端的私聊信息
-        self.socket.on('pm', function (data) {
-            //alert('pm start');
-            //判断是2还是3人聊
-            if (data.targetName.indexOf(separator) != -1) {
-                //3人聊
-                var splitArr = data.targetName.split(separator);
-                var targetName01 = splitArr[0];
-                var targetName02 = splitArr[1];
-                var flag = targetName01 == self.userName || targetName02 == self.userName;
-                if (flag) {
-                    //判断是不是图片
-                    if (data.isPicture == true) {
-                        data = {
-                            userName: data.userName,
-                            targetName: target,
-                            img01: data.img01
-                        };
-                        self.addChatLog(data, false, true);
-                    }
-                    else {
-                        data = {
-                            msg: data.msg,
-                            userName: data.userName,
-                            targetName: target
-                        };
-                        self.addChatLog(data, false);
-                    }
-                }
-            }
-            //二人聊
-            else {
-                //判断是不是指定的聊天对象
-                if (data.targetName != self.userName) return;
-                //判断是不是图片
-                if (data.isPicture == true) {
-                    data = {
-                        userName: data.userName,
-                        targetName: data.userName,
-                        img01: data.img01
-                    };
-                    self.addChatLog(data, false, true);
-                }
-                else {
-                    data = {
-                        msg: data.msg,
-                        userName: data.userName,
-                        targetName: data.userName
-                    };
-                    //把对方写的聊天消息添加到聊天框上
-                    self.addChatLog(data, false);
-                }
-            }
-        });
-        //启动gm响应函数，用于接收服务端的群聊信息
-        self.socket.on('gm', function (data) {
-            if (data.userName == self.userName) {
-                return;
-            }
-            //判断是不是图片
-            if (data.isPicture == true) {
-                self.addChatLog(data, false, true);
-            }
-            else {
-                self.addChatLog(data, false);
-            }
-        });
+//读取文件方法
+function get_file_content(filepath) {
+    return fs.readFileSync(filepath);
+}
 
-        //启动checkOnLine响应函数，用于告诉服务器是否在线
-        self.socket.on('checkOnLine', function (data) {
-            self.socket.emit('checkOnLine', {
-                userName: self.userName
+/*路由器
+准备一个html文件让客户端连接域名时使用*/
+function router(req, res) {
+    if (req.url === '/') {
+        res.writeHead(200, {
+            'Content-Type': 'text/html;charset=utf-8'
+        });
+        res.end(fs.readFileSync(path.join(__dirname, 'index.html')));
+    }
+    else if (req.url.substr(req.url.length - 4, req.url.length) === 'e.js') {
+        res.writeHead(200, {'Content-Type': 'text/javascript'});
+        /*        res.end(get_file_content('../../../../ubuntu/node_modules/lrz/dist/lrz.all.bundle.js'));*/
+        res.end(get_file_content('../lrz/dist/lrz.all.bundle.js'));
+    }
+    else if (req.url.substr(req.url.length - 4, req.url.length) === '.jpg') {
+        res.writeHead(200, {'Content-Type': 'image/jpeg'});
+        res.end(get_file_content('./public/imgs/2.jpg'));
+        /*  res.end();*/
+    }
+    else {
+        res.end(NOT_FOUNT_MSG);
+    }
+}
+
+//启动connction响应函数，用于响应客户端的连接信息
+io.on('connection', function (socket) {
+    //启动createUser响应函数，用于响应客户端创建用户名
+    socket.on('createUser', function (data) {
+        var userName = data.userName;
+        //检查是否有重名
+        var userNameIsExist = in_array(onlineUsers, userName);
+        console.log('是否重名：' + userNameIsExist);
+        if (userNameIsExist) {
+            socket.emit('createUser', {userNameIsExist: true});
+        }
+        else {
+            socket.emit('createUser', {userNameIsExist: false});
+            //把新连接的用户信息存到onlineUser
+            onlineUsers.push(userName);
+            //启动broadcast广播函数，用于广播新连接用户信息给各个客户端广播函数
+            io.emit('broadcast', {
+                userName: userName,
+                onlineUsersSize: onlineUsers.length
             });
-        });
-    };
-    //弹出输入用户名窗口
-    ChatRoomClient.prototype.changeName = function () {
-        var self = this;
-        var str = '<div class="chatroom-rename" style="display:none;"><label>取个名字：</label><input type="text" ' +
-            'placeholder="请取名字！"><span>确认</span></div>';
-        $(str).appendTo($('.chatroom')).fadeIn();
-        $('.chatroom-rename span').on('click', function () {
-            var $input = $('.chatroom-rename input');
+            console.log('新用户登录：' + userName);
+            console.log('在线人数：' + onlineUsers.length);
+        }
 
-            if ($.trim($input.val())) {
-                var name = $.trim($input.val()).slice(0, 12);
-                //用户名不能输入顿号
-                if ($input.val().indexOf('、') != -1) {
-                    alert('不能输入顿号：「、」');
-                    $input.val('').focus();
-                }
-                else {
-                    self.socket.emit('createUser', {
-                        userName: name
-                    });
-                    //检查是否有重名
-                    self.socket.on('createUser', function (data) {
-                        if (data.userNameIsExist) {
-                            alert('该名字已被采用,请另谋高名');
-                            $input.val('').focus();
-                        } else {
-                            self.userName = name;
-                            $('.chatroom-rename').remove();
-                        }
-                    });
-                }
-            }
+    });
+    //启动pm响应函数，用于接收客户端的私聊信息
+    socket.on('pm', function (data) {
+        if (data.targetName.indexOf(separator) != -1) {
+            console.log('separator:' + separator);
+            console.log(data.targetName);
+        }
+        io.emit('pm', {
+            msg: data.msg,
+            userName: data.userName,
+            targetName: data.targetName,
+            isPicture: data.isPicture,
+            img01: data.img01
         });
-    };
-    //通知新连接用户的信息
-    ChatRoomClient.prototype.addWelcomeLog = function (data) {
-        var $info = '<div class="chatroom-log-info chatroom-log-welcome"> '
-            + '欢迎 '
-            + '<strong class="name">' + data.userName + '</strong> 加入群聊！</div>';
-        var $target = $(".chatroom-item[data-id='group']");
-        $target.append($info);
-    };
-    //在chatroom-tribes的左边消息栏上添加<li class="chatroom-tribe" data-id='target'>元素，
-    //右边chatroom-pannel-bd的聊天框上添加<div class="chatroom-item" data-id='target'></div>元素，
-    // 如果setCurrent为true，并把该li和div设为当前对象
-    ChatRoomClient.prototype.createPrivateChat = function (target, setCurrent) {
-        //如果已经创建过聊天对象target的窗口，则不再创建
-        if ($('.chatroom-item[data-id="' + target + '"]').size()) {
-            //把分配的li元素和div设为当前对象
-            if (setCurrent) {
-                $('.chatroom-tribe').removeClass('current');
-                $('.chatroom-item').removeClass('current');
-                $('.chatroom-tribe[data-id="' + target + '"]').addClass('current');
-                $('.chatroom-item[data-id="' + target + '"]').addClass('current');
-                return;
-            }
+    });
+    //启动gm响应函数，用于接收客户端的群聊信息
+    socket.on('gm', function (data) {
+        io.emit('gm', {
+            msg: data.msg,
+            userName: data.userName,
+            targetName: data.targetName,
+            isPicture: data.isPicture,
+            img01: data.img01
+        });
+    });
+    //启动checkOnLine响应函数，用于接收客户端的在线信息
+    socket.on('checkOnLine', function (data) {
+        var userName = data.userName;
+        //把在线且不为null的用户（已输入用户名）信息存到onlineUser
+        if (userName != null) {
+            onlineUsers.push(userName);
         }
-        var tabXtpl = [
-            '<li class="chatroom-tribe" data-id=' + target + '>',
-            '<span class="name">' + target,
-            '</span>',
-            '<span class="count">0</span>',
-            '<i class="iconfont">╳</i>',
-            '</li>'
-        ];
-        //把tabXtpl数组的元素连起来组成一个字符串，并往左边消息栏添加新的li元素（data-id='target'）
-        var $li = tabXtpl.join('');
-        $(".chatroom-tribes").append($li);
-        //把一个新的div（data-id='target'）添加进chatroom-pannel-bd里
-        var $pannel = '<div class="chatroom-item" data-id=' + target + '></div>';
-        $(".chatroom-pannel-bd").append($pannel);
-        //把新建的li元素和div设为当前对象
-        if (setCurrent) {
-            $('.chatroom-tribe').removeClass('current');
-            $('.chatroom-item').removeClass('current');
-            $('.chatroom-tribes>li').last().addClass('current');
-            $('.chatroom-item').last().addClass('current');
+    });
+})
+//每15秒一次，告诉客户端还有多少分钟开始分配
+var EVERY_MINUTE_DELTA = 0.25 * 60 * 1000;
+var everyMinuteInterval = setInterval(function () {
+    currentTime = new Date().getMinutes();
+    console.log('现在的分钟数：'+currentTime);
+    var restTime = null;
+    if (0<=startTime<=30){
+        if (currentTime<=startTime){
+            restTime=startTime-currentTime;
         }
-    };
-    //在chatroom-item[data-id=' data.targetName']的div上添加聊天信息
-    ChatRoomClient.prototype.addChatLog = function (data, isSelf, isPicture) {
-        /*        if(!isSelf) {
-                    data.name = '我';
-                }*/
-        if (isPicture) {
-            var logXtpl = [
-                '<div class="chatroom-log' + (isSelf ? ' myself' : '') + '">',
-                '<span class="time"><b data-id=' + data.userName + '>' + data.userName + '</b> ' + new Date().toLocaleString() + '</span>',
-                '<div><img src="' + data.img01 + '"/></div>',
-                '</div>'
-            ];
-            var $log = logXtpl.join('\n');
-            var $target = $(".chatroom-item[data-id='" + data.targetName + "']");
-            $target.append($log);
-            //拉轴拉到最底
-            this.scroll(data.targetName, isSelf);
+        else if((startTime<currentTime)&&(currentTime<=startTime+30)){
+            restTime = startTime+30-currentTime
+        }
+        else {
+            restTime = startTime+60-currentTime;
+        }
+    }
+    else {
+        if (currentTime<=startTime-30){
+            restTime = startTime-30-currentTime;
+        }
+        else if ((startTime-30<currentTime)&&(currentTime<=startTime+30)){
+            restTime = startTime - currentTime;
+        }
+        else {
+            restTime = 30 - (currentTime-startTime);
+        }
+
+    }
+    console.log('距离下次分配分钟数'+restTime);
+    restTimeCal(restTime);
+}, EVERY_MINUTE_DELTA);
+//长间隔定时，每半小时调用一次
+var longMinute = 30;
+var LONG_DELTA = longMinute * 60 * 1000;//1分钟（测试用）
+var longInterval = setInterval(
+    function () {
+        console.log('长间隔开始：' + new Date().toLocaleTimeString());
+        //短间隔总分配次数：1
+        var shortTimes = 1;//1次（测试用）
+        //计数器
+        var times = 0;
+        //短间隔定时，每20秒调用一次
+        var SHORT_DELTA = 20 * 1000;//30秒（测试用）
+        var shortInterval = setInterval(
+            function () {
+                //如果短间隔次数大于总分配次数，跳出
+                if (times > shortTimes - 1) {
+                    return clearInterval(shortInterval);
+                }
+                console.log('短间隔开始：' + new Date().toLocaleTimeString());
+                //短间隔分配次数+1
+                times++;
+                //清空onlineUser
+                onlineUsers.splice(0, onlineUsers.length);
+                //服务器发送广播函数checkOnLine（）
+                io.emit('checkOnLine', {});
+                //checkOnLine后的等待15秒再分配
+                var TIME_AFTER_CHECKONLINE = 15 * 1000;//6秒（测试用）
+                //checkOnLine一分钟后再开始分配
+                var checkOnLineAfter = setTimeout(function () {
+                    //分配前统计在线人数
+                    io.emit('beforeMatchSize', {
+                        onlineUsersSize: onlineUsers.length
+                    });
+                    //分配聊天
+                    allMatch(onlineUsers, userKey, userValue, userJson, threeUsers);
+                    //记录当前时间戳
+                    console.log('第' + times + '次分配;' + '分配时间： ' + new Date().toLocaleTimeString());
+                }, TIME_AFTER_CHECKONLINE);
+            }, SHORT_DELTA);
+    }, LONG_DELTA);
+
+//把一个数组的值随机分配到两个数组里
+function toTwoArray(arrSum, arrKey, arrValue) {
+    for (var i = 0; arrSum.length != 0; i++) {
+        arrKey[i] = arrSum[0];
+        arrSum.shift();
+        var n = Math.floor(Math.random() * arrSum.length + 1) - 1;
+        arrValue[i] = arrSum[n];
+        arrSum.splice(n, 1);
+    }
+}
+
+//把两个数组的值合并成键值对到一个json数组
+function toJson(arrKey, arrValue, arrJson) {
+    for (var i = 0; i < arrKey.length; i++) {
+        var key = arrKey[i];
+        var val = arrValue[i];
+        var obj = {};
+        obj[key] = val;
+        arrJson.push(obj)
+    }
+}
+
+function evenMatch(onlineUsers, userKey, userValue, userJson) {
+    //把userOnine数组的值随机分配到userKey,userValue两个数组里
+    toTwoArray(onlineUsers, userKey, userValue);
+    //把userKey,userValue数组的值合并成键值对到userJson数组
+    toJson(userKey, userValue, userJson);
+    //打印userJson
+    for (var i = 0; i < userJson.length; i++) {
+        for (var key in userJson[i]) {
+            console.log(key + ':' + userJson[i][key]);
+        }
+    }
+    io.emit('randomChat', {
+        userJson: userJson,
+        threeUsers: ['1a!.A', '1a!.A', '1a!.A']
+    });
+
+    onlineUsers.splice(0, onlineUsers.length);
+    userKey.splice(0, userKey.length);
+    userValue.splice(0, userValue.length);
+    userJson.splice(0, userJson.length);
+}
+
+//随机抽取onlineUsers的3个对象放到threeUers里
+function unevenMatch(onlineUsers, threeUers) {
+    for (var i = 0; i < 3; i++) {
+        var n = Math.floor(Math.random() * onlineUsers.length + 1) - 1;
+        var value = onlineUsers[n];
+        threeUers.push(value)
+        onlineUsers.splice(n, 1);
+    }
+    io.emit('randomChat', {
+        userJson: userJson,
+        threeUsers: threeUers
+    });
+    //打印threeUsers
+    console.log('threeUsers[' + threeUers[0] + ',' + threeUers[1] + ',' + threeUers[2] + ']');
+    threeUers.splice(0, threeUers.length);
+}
+
+//总分配函数
+function allMatch(onlineUsers, userKey, userValue, userJson, threeUsers) {
+    //检测onlineUser的人数
+    if (onlineUsers.length < 2) {
+        console.log('people not enough ')
+        return;
+    }
+    else {
+        if (onlineUsers.length == 2) {
+            //2人分配
+            console.log('2人分配');
+            evenMatch(onlineUsers, userKey, userValue, userJson);
             return;
         }
-        ;
-
-        var logXtpl = [
-            '<div class="chatroom-log' + (isSelf ? ' myself' : '') + '">',
-            '<span class="time"><b data-id=' + data.userName + '>' + data.userName + '</b> ' + new Date().toLocaleString() + '</span>',
-            '<span class="detail">' + data.msg + '</span>',
-            '</div>'
-        ];
-        var $log = logXtpl.join('\n');
-        var $target = $(".chatroom-item[data-id='" + data.targetName + "']");
-        $target.append($log);
-        //拉轴拉到最底
-        this.scroll(data.targetName, isSelf);
-    };
-    //拉轴
-    ChatRoomClient.prototype.scroll = function (userName, isSelf) {
-        var $target = $(".chatroom-item[data-id='" + userName + "']");
-        var $box = $('.chatroom-pannel-bd');
-        var H = $target.height();
-        var DELTA = 300;
-        var flag = isSelf || $box.scrollTop() < H - DELTA;
-        if (flag) {
-            $box.scrollTop(H);
-            $target.attr('data-lastscroll', H);
+        else if (onlineUsers.length == 3) {
+            //3人分配
+            console.log('3人分配');
+            unevenMatch(onlineUsers, threeUsers);
+            onlineUsers.splice(0, onlineUsers.length);
+            return;
+        }
+        else if (onlineUsers.length > 2 && onlineUsers.length % 2 == 0) {
+            //2人以上偶数分配
+            console.log('2人以上偶数分配');
+            evenMatch(onlineUsers, userKey, userValue, userJson);
+            return;
+        }
+        else {
+            //3人分配后偶数分配
+            console.log('3人分配后偶数分配');
+            unevenMatch(onlineUsers, threeUsers);
+            evenMatch(onlineUsers, userKey, userValue, userJson);
+            return;
         }
     }
-    //一堆JQuery函数
-    ChatRoomClient.prototype.bindEvent = function () {
-        var self = this;
-        //ctrl+enter发送消息
-        $('.chatroom-input').on('keydown', function (evt) {
-            var $this = $(this);
-            if ((evt.ctrlKey || evt.metaKey) && evt.keyCode == '13' && $.trim($this.val()) || evt.isTrigger) {
-                var targetName = $('.chatroom-tribe.current').attr('data-id');
-                var val = $this.val();
-                if (val.length >= 516) {
-                    val = val.slice(0, 500) + '...(输入太长，系统自动截断)';
-                }
-                var data = {
-                    msg: val,
-                    userName: self.userName,
-                    targetName: targetName
-                };
-                self.socket.emit(targetName == 'group' ? 'gm' : 'pm', data);
-                //把自己写的聊天消息添加到自己的聊天框上
-                self.addChatLog(data, true);
-                $this.val('').focus();
-                return false;
-            }
-        });
-        //按发送键发送信息
-        $('.chatroom-send-btn').on('click', function (evt) {
-            if ($.trim($('.chatroom-input').val())) {
-                $('.chatroom-input').trigger('keydown');
-            }
-        });
-        //切换窗口
-        $('.chatroom-tribes').on('click', 'li', function (evt) {
-            evt.preventDefault();
-            var id = $(this).attr('data-id');
-            var $target = $('.chatroom-item[data-id="' + id + '"]');
-            $('.chatroom-tribes').find('li').removeClass('current');
-            $('.chatroom-item').removeClass('current');
-            $(this).addClass('current');
-            //拉轴和消息数量相关
-            $target.addClass('current').scrollTop(1E5);
-            /*            $target.addClass('current').scrollTop(1E5);
-                       $(this).find('.count').text(0).css('visibility', 'hidden');
-                       var count = parseInt($(this).find('.count').text());
-                       count = isNaN(count) ? 0 : +count;
-                       this.totalCount -= count;
-                       setTimeout(function() {
-                           $('.chatroom textarea').focus();
-                       }, 10);
-                       $('.chatroom-pannel-bd').scrollTop($target.attr('data-lastscroll'));*/
-        });
-    };
-    window.chatRoomClient = new ChatRoomClient();
-</script>
+}
 
-<style>
-    * {
-        margin: 0;
-        padding: 0;
+//检查一个数组是否有某个值
+function in_array(arr, element) {
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i] == element) {
+            return true;
+        }
     }
+    return false;
+}
 
-    body {
-        font-size: 12px;
-    }
+//发送剩余时间函数
+function restTimeCal(restTime) {
+    io.emit('restTime', {
+        restTime: restTime
+    });
+}
 
-    .chatroom-feedback {
-        position: absolute;
-        bottom: 3px;
-        background: #EEE;
-        width: 159px;
-        height: 30px;
-        line-height: 30px;
-        text-align: center;
-        z-index: 0;
-    }
-
-    .chatroom {
-        font-size: 12px;
-        position: fixed;
-        right: -3px;
-        bottom: -3px;
-        width: 563px;
-        height: 405px;
-        z-index: 998;
-        overflow: hidden;
-        background: #FFF;
-        box-shadow: -3px -2px 8px -1px rgba(0, 0, 0, 0.2);
-        border-radius: 2px 0px 0px 2px;
-        transition: all 0.3s;
-    }
-
-    .chatroom-fold {
-        right: -404px;
-        bottom: -368px;
-        transition: all 0.3s;
-    }
-
-    .chatroom-fold .chatroom-tribe .count {
-        right: 42px;
-    }
-
-    /*没有了chatroom-info的话最小化后会在中间显示*/
-    .chatroom-fold .chatroom-info {
-        right: 412px;
-    }
-
-    .chatroom-tribe {
-        -webkit-user-select: none;
-        padding: 4px 5px;
-        cursor: pointer;
-        height: 30px;
-        line-height: 30px;
-        overflow: hidden;
-        margin-bottom: 1px;
-        position: relative;
-    }
-
-    .chatroom-tribe:hover, .chatroom-tribe.current {
-        background: #f2f2f5;
-    }
-
-    .chatroom-tribe img {
-        width: 30px;
-        height: 30px;
-        vertical-align: middle;
-    }
-
-    .chatroom-tribe .name {
-        max-width: 90px;
-        display: inline-block;
-        vertical-align: middle;
-        height: 30px;
-        margin-left: 10px;
-        line-height: 30px;
-        overflow: hidden;
-    }
-
-    .chatroom-tribe .count {
-        visibility: hidden;
-        min-width: 18px;
-        height: 13px;
-        line-height: 14px;
-        text-align: center;
-        display: inline-block;
-        vertical-align: middle;
-        padding: 1px 2px;
-        background: #fa7d3c;
-        color: #fff;
-        border-radius: 3px;
-        transform: scale(0.8);
-        position: absolute;
-        right: 22px;
-        top: 12px;
-    }
-
-    .chatroom-tribe .iconfont {
-        position: absolute;
-        right: 0;
-        width: 30px;
-        height: 30px;
-        text-align: center;
-        font-size: 12px;
-        font-family: Arial;
-        color: #696e78;
-        font-style: normal;
-        transform: scale(0.5);
-        font-weight: bold;
-        visibility: hidden;
-    }
-
-    .chatroom-tribe .iconfont:hover {
-        color: #fa7d3c;
-    }
-
-    .chatroom-tribe:hover .iconfont {
-        visibility: visible;
-    }
-
-    .chatroom-tribes {
-        float: left;
-        width: 159px;
-        border-right: 1px #d9d9d9 solid;
-        overflow: hidden;
-        height: 402px;
-        overflow-y: auto;
-    }
-
-    .chatroom-tribe {
-    }
-
-    .chatroom-pannels {
-        float: left;
-        width: 400px;
-        /*        原来高度350px*/
-        height: 300px;
-    }
-
-    .chatroom-pannel-bd {
-        /*        原来高度340px*/
-        height: 290px;
-        background: #f2f2f5;
-        overflow-y: auto;
-    }
-
-    .chatroom-item {
-        display: none;
-        padding-bottom: 10px;
-    }
-
-    .chatroom-item.current {
-        display: block;
-    }
-
-    .chatroom-pannel-ft {
-        border-top: 1px #d9d9d9 solid;
-        position: relative;
-        height: 60px;
-    }
-
-    .file-div {
-        position: relative;
-        height: 10px;
-    }
-
-    .textarea-div {
-        height: 40px;
-    }
-
-    .textarea-div {
-        height: 10px;
-    }
-
-    .chatroom-pannel-ft textarea {
-        resize: none;
-        border: none;
-        position: absolute;
-        left: 6px;
-        right: 6px;
-        top: 6px;
-        width: 77%;
-        bottom: 6px;
-        outline: none;
-        line-height: 18px;
-        font-size: 12px;
-        overflow-y: auto;
-    }
-
-    .chatroom-log {
-        padding: 25px 10px 0;
-        overflow: hidden;
-        line-height: 18px;
-    }
-
-    .chatroom-log .avatar {
-        width: 30px;
-        height: 30px;
-        overflow: hidden;
-        float: left;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    .chatroom-log .avatar img {
-        width: 30px;
-        min-height: 30px;
-    }
-
-    .chatroom-log .time {
-        width: 310px;
-        margin-left: 13px;
-        margin-bottom: 4px;
-        float: left;
-        color: #999;
-    }
-
-    .chatroom-log .time b {
-        text-decoration: underline;
-        font-weight: normal;
-    }
-
-    .chatroom-log .time b:hover {
-        cursor: pointer;
-        color: #666;
-    }
-
-    .chatroom-log .detail {
-        max-width: 222px;
-        float: left;
-        padding: 5px 9px;
-        position: relative;
-        margin-left: 13px;
-        background: #fff;
-        border: 1px #ccc solid;
-        border-radius: 5px;
-        box-shadow: 0 3px 3px rgba(0, 0, 0, .05);
-        word-break: break-word;
-    }
-
-    .chatroom-log .detail:before, .chatroom-log .detail:after {
-        content: " ";
-        display: inline-block;
-        width: 0;
-        height: 0;
-        border-width: 7px;
-        border-style: solid;
-        overflow: hidden;
-        font-size: 0;
-        line-height: 0;
-        vertical-align: top;
-        top: 10px;
-        position: absolute;
-        border-top-color: rgba(0, 0, 0, 0);
-        border-bottom-color: rgba(0, 0, 0, 0);
-        border-left-color: rgba(0, 0, 0, 0);
-    }
-
-    .chatroom-log .detail:before {
-        border-width: 4px;
-        border-top-color: #ccc;
-        color: #ccc;
-        left: -8px;
-    }
-
-    .chatroom-log .detail:after {
-        border-top-color: #fff;
-        color: #fff;
-        left: -6px;
-        border-width: 3px;
-        top: 11px;
-    }
-
-    .chatroom-log.myself {
-    }
-
-    .chatroom-log.myself .avatar {
-        float: right;
-    }
-
-    .chatroom-log.myself .time {
-        float: right;
-        margin-left: 0;
-        margin-right: 13px;
-        text-align: right;
-    }
-
-    .chatroom-log.myself .detail {
-        float: right;
-        margin-left: 0;
-        margin-right: 13px;
-        background: #d7ebfe;
-        border: 1px #b7d4ef solid;
-    }
-
-    .myself .detail:before, .myself .detail:after {
-        border-top-color: rgba(0, 0, 0, 0);
-        border-bottom-color: rgba(0, 0, 0, 0);
-        border-right-color: rgba(0, 0, 0, 0);
-    }
-
-    .chatroom-log.myself .detail:before {
-        border-top-color: #b7d4ef;
-        border-left-color: #b7d4ef;
-        left: auto;
-        right: -8px;
-    }
-
-    .chatroom-log.myself .detail:after {
-        border-top-color: #d7ebfe;
-        border-left-color: #d7ebfe;
-        left: auto;
-        right: -6px;
-    }
-
-    .chatroom-log-info {
-        text-align: center;
-        padding: 5px;
-        color: #999;
-    }
-
-    .chatroom-rename {
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-    }
-
-    .chatroom-rename span {
-        cursor: pointer;
-        top: 50%;
-        margin-top: -15px;
-        position: absolute;
-        left: 420px;
-        background: #EEE;
-        height: 30px;
-        line-height: 30px;
-        padding: 0 15px;
-        border-radius: 2px;
-        text-align: center;
-    }
-
-    .chatroom-rename span:hover {
-        background: #ccc;
-    }
-
-    .chatroom-rename input {
-        position: absolute;
-        left: 150px;
-        top: 50%;
-        height: 30px;
-        line-height: 30px;
-        text-indent: 10px;
-        border: none;
-        width: 250px;
-        border-radius: 3px;
-        margin-top: -15px;
-        outline: none;
-    }
-
-    .chatroom-rename label {
-        position: absolute;
-        top: 50%;
-        margin-top: -15px;
-        line-height: 30px;
-        left: 70px;
-        color: #FFF;
-        font-size: 14px;
-    }
-
-    .chatroom-fold .chatroom-rename {
-        display: none !important;
-    }
-
-    .chatroom-log-welcome {
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-
-    .chatroom-log-welcome img {
-        width: 28px;
-        vertical-align: middle;
-        margin: 0 2px;
-        border-radius: 100%;
-        cursor: pointer;
-    }
-
-    .chatroom-log-welcome strong {
-        font-weight: normal;
-        cursor: pointer;
-        text-decoration: underline;
-    }
-
-    .chatroom-send-btn {
-        position: relative;
-        z-index: 0;
-        float: right;
-        width: 70px;
-        /*原来height: 40px;*/
-        height: 40px;
-        background: #EEE;
-        text-align: center;
-        /*原来line-height: 40px;*/
-        line-height: 40px;
-        top: 10px;
-        font-size: 14px;
-        margin-right: 10px;
-        cursor: pointer;
-        transition: all 0.3s;
-    }
-
-    .chatroom-send-btn:hover {
-        background: #CCC;
-        transition: all 0.3s;
-    }
-
-    .file {
-        position: relative;
-        display: inline-block;
-        background: #D0EEFF;
-        border: 1px solid #99D3F5;
-        border-radius: 4px;
-        padding: 4px 12px;
-        overflow: hidden;
-        color: #1E88C7;
-        text-decoration: none;
-        text-indent: 0;
-        line-height: 20px;
-    }
-
-    .file input {
-        position: absolute;
-        font-size: 100px;
-        right: 0;
-        top: 0;
-        opacity: 0;
-    }
-
-    .file:hover {
-        background: #AADFFD;
-        border-color: #78C3F3;
-        color: #004974;
-        text-decoration: none;
-    }
-</style>
