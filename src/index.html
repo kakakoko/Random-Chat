@@ -403,6 +403,13 @@
         padding: 0;
     }
 
+    html {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     body {
         font-size: 12px;
     }
@@ -421,8 +428,6 @@
     .chatroom {
         font-size: 12px;
         position: fixed;
-        right: -3px;
-        bottom: -3px;
         width: 563px;
         height: 405px;
         z-index: 998;
@@ -431,6 +436,7 @@
         box-shadow: -3px -2px 8px -1px rgba(0, 0, 0, 0.2);
         border-radius: 2px 0px 0px 2px;
         transition: all 0.3s;
+
     }
 
     .chatroom-fold {
