@@ -48,6 +48,11 @@ function router(req, res) {
         res.end(get_file_content('./public/imgs/2.jpg'));
         /*  res.end();*/
     }
+    else if (req.url.substr(req.url.length - 4, req.url.length) === '.css') {
+        res.writeHead(200, {'Content-Type': 'text/css'});
+        res.end(get_file_content('./public/css/index.css'));
+        /*  res.end();*/
+    }
     else {
         res.end(NOT_FOUNT_MSG);
     }

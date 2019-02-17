@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="cc696728-b8c0-4c7c-a287-d09fae9281ac" name="Default" comment="" />
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="nodeJs01" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="342">
+              <caret line="18" column="35" selection-start-line="18" selection-start-column="35" selection-end-line="18" selection-end-column="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="7505">
+              <caret line="395" column="34" selection-start-line="395" selection-start-column="34" selection-end-line="395" selection-end-column="34" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="152">
+              <caret line="8" selection-start-line="8" selection-end-line="8" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/public/css/index.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="8645">
+              <caret line="455" column="1" selection-start-line="455" selection-start-column="1" selection-end-line="455" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>群聊</find>
+      <find>$('.chatroom-tribe.current')</find>
+      <find>self.socket.emit(targetName == 'gr</find>
+      <find>pm</find>
+      <find>broa</find>
+      <find>gm</find>
+      <find>li</find>
+      <find>click</find>
+      <find>scroll</find>
+      <find>测试用</find>
+      <find>check</find>
+      <find>span</find>
+      <find>create</find>
+      <find>currentTime</find>
+      <find>测试</find>
+      <find>50</find>
+      <find>rest</find>
+      <find>10001</find>
+      <find>ban</find>
+      <find>res</find>
+      <find>local</find>
+      <find>url</find>
+      <find>broadcast</find>
+      <find>bro</find>
+      <find>style</find>
+      <find>head</find>
+      <find>charset</find>
+      <find>import</find>
+      <find>/lrz.all.bundle.js</find>
+      <find>html</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/bin/indexForPrivateChatDebug.js" />
+        <option value="$PROJECT_DIR$/bin/indexForPrivateChatDebug.html" />
+        <option value="vm:338" />
+        <option value="vm:253" />
+        <option value="$PROJECT_DIR$/bin/indexForPrivateChatDebug/indexForPrivateChatDebug.html" />
+        <option value="$PROJECT_DIR$/bin/buildWindow/buildWindow.html" />
+        <option value="vm:244" />
+        <option value="$PROJECT_DIR$/bin/indexForPrivateChatDebug/indexForPrivateChatDebug.js" />
+        <option value="$PROJECT_DIR$/bin/index.js" />
+        <option value="$PROJECT_DIR$/bin/buildWindow/buildWindow.js" />
+        <option value="$PROJECT_DIR$/bin/aa.html" />
+        <option value="$PROJECT_DIR$/bin/layout.html" />
+        <option value="$PROJECT_DIR$/bin/index_demo.js" />
+        <option value="$PROJECT_DIR$/bin/byName/byName.js" />
+        <option value="$PROJECT_DIR$/bin/byName/byName.html" />
+        <option value="$PROJECT_DIR$/bin/test.js" />
+        <option value="$PROJECT_DIR$/src/myIndex" />
+        <option value="$PROJECT_DIR$/src/chatroom.js" />
+        <option value="$PROJECT_DIR$/bin/index_demo.html" />
+        <option value="$PROJECT_DIR$/src/lrz.bundle.js" />
+        <option value="$PROJECT_DIR$/src/forExpress.js" />
+        <option value="$PROJECT_DIR$/src/public/js/a.js" />
+        <option value="$PROJECT_DIR$/src/a.js" />
+        <option value="$PROJECT_DIR$/src/html/index.html" />
+        <option value="$PROJECT_DIR$/src/server.js" />
+        <option value="$PROJECT_DIR$/src/sendPicture.js" />
+        <option value="$PROJECT_DIR$/src/sendPicture.html" />
+        <option value="$PROJECT_DIR$/src/forLrz/index.html" />
+        <option value="$PROJECT_DIR$/src/forLrz/server.js" />
+        <option value="$PROJECT_DIR$/src/Index.js" />
+        <option value="$PROJECT_DIR$/src/html/sendPicture.html" />
+        <option value="$PROJECT_DIR$/src/forLrz/sendPicture.js" />
+        <option value="$PROJECT_DIR$/src/xiaohuzi.js" />
+        <option value="$PROJECT_DIR$/src/xiaohuzi/xiaohuzi.html" />
+        <option value="$PROJECT_DIR$/src/xiaohuzi/xiaohuzi.js" />
+        <option value="$PROJECT_DIR$/src/index21210.js" />
+        <option value="$PROJECT_DIR$/src/index_ban.html" />
+        <option value="$PROJECT_DIR$/src/index_ban.js" />
+        <option value="$PROJECT_DIR$/src/index_ban_wai.js" />
+        <option value="$PROJECT_DIR$/src/randomServer.js" />
+        <option value="$APPLICATION_CONFIG_DIR$/webstorm64.exe.vmoptions" />
+        <option value="$PROJECT_DIR$/src/test.js" />
+        <option value="$PROJECT_DIR$/src/test.html" />
+        <option value="$PROJECT_DIR$/src/test01.css" />
+        <option value="$PROJECT_DIR$/src/index.css" />
+        <option value="$PROJECT_DIR$/src/public/css/index01.css" />
+        <option value="$PROJECT_DIR$/src/index01.css" />
+        <option value="$PROJECT_DIR$/src/test01.html" />
+        <option value="$PROJECT_DIR$/src/public/css/index.css" />
+        <option value="$PROJECT_DIR$/src/index.js" />
+        <option value="$PROJECT_DIR$/src/index.html" />
+      </list>
+    </option>
+  </component>
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="166" />
+    <option name="y" value="167" />
+    <option name="width" value="1364" />
+    <option name="height" value="726" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="RandomChat" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RandomChat" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="RandomChat" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RandomChat" type="462c0819:PsiDirectoryNode" />
+              <item name="bin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="RandomChat" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RandomChat" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="HbShouldOpenHtmlAsHb" value="" />
+    <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="javascript.nodejs.core.library.configured.version" value="10.15.1" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path" value="node" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\workSpace\nodeJs01\src\public\css" />
+      <recent name="D:\workSpace\nodeJs01\src" />
+      <recent name="E:\workSpace\nodeJs01\bin" />
+      <recent name="E:\workSpace\nodeJs01\src\public\js" />
+      <recent name="E:\workSpace\nodeJs01\src" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\workSpace\nodeJs01\src\xiaohuzi" />
+      <recent name="E:\workSpace\nodeJs01\src" />
+      <recent name="E:\workSpace\nodeJs01\src\html" />
+      <recent name="E:\workSpace\nodeJs01\src\public\imgs" />
+      <recent name="E:\workSpace\nodeJs01\a" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Node.js.Index.js (1)">
+    <configuration name="test01.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/nodeJs01/src/test01.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="Index.js (1)" type="NodeJSConfigurationType" temporary="true" path-to-js-file="$PROJECT_DIR$/src/index.js" working-dir="$PROJECT_DIR$/src">
+      <method v="2" />
+    </configuration>
+    <configuration name="index_ban_wai.js" type="NodeJSConfigurationType" temporary="true" path-to-js-file="index_ban_wai.js" working-dir="$PROJECT_DIR$/src">
+      <method v="2" />
+    </configuration>
+    <configuration name="randomServer.js" type="NodeJSConfigurationType" temporary="true" path-to-js-file="randomServer.js" working-dir="$PROJECT_DIR$/src">
+      <method v="2" />
+    </configuration>
+    <configuration name="test.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/src/test.js" working-dir="$PROJECT_DIR$">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Node.js.Index.js (1)" />
+        <item itemvalue="JavaScript Debug.test01.html" />
+        <item itemvalue="Node.js.test.js" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cc696728-b8c0-4c7c-a287-d09fae9281ac" name="Default" comment="" />
+      <created>1507343874753</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1507343874753</updated>
+      <workItem from="1507343909606" duration="1374000" />
+      <workItem from="1507346215227" duration="13062000" />
+      <workItem from="1507416601190" duration="17217000" />
+      <workItem from="1507461312274" duration="5706000" />
+      <workItem from="1507528310334" duration="11684000" />
+      <workItem from="1507674270258" duration="8734000" />
+      <workItem from="1507753353832" duration="12096000" />
+      <workItem from="1507846898734" duration="12688000" />
+      <workItem from="1507932750179" duration="8827000" />
+      <workItem from="1507990218826" duration="37898000" />
+      <workItem from="1508279880203" duration="15949000" />
+      <workItem from="1508366064943" duration="3195000" />
+      <workItem from="1508451688663" duration="6138000" />
+      <workItem from="1508539427197" duration="18668000" />
+      <workItem from="1508592074108" duration="5555000" />
+      <workItem from="1508627821800" duration="18888000" />
+      <workItem from="1508766800020" duration="4823000" />
+      <workItem from="1508797481584" duration="1770000" />
+      <workItem from="1509026910380" duration="752000" />
+      <workItem from="1509370335865" duration="3643000" />
+      <workItem from="1509580575593" duration="2606000" />
+      <workItem from="1509657096118" duration="21998000" />
+      <workItem from="1509843574445" duration="9211000" />
+      <workItem from="1509923704727" duration="3938000" />
+      <workItem from="1510014867515" duration="7501000" />
+      <workItem from="1510369864932" duration="344000" />
+      <workItem from="1510433081655" duration="684000" />
+      <workItem from="1510459095471" duration="22155000" />
+      <workItem from="1510574713126" duration="2206000" />
+      <workItem from="1511430521888" duration="1928000" />
+      <workItem from="1512276071209" duration="4759000" />
+      <workItem from="1512656895427" duration="596000" />
+      <workItem from="1512865528952" duration="70987000" />
+      <workItem from="1514678153663" duration="1320000" />
+      <workItem from="1514679556763" duration="84000" />
+      <workItem from="1514679668208" duration="146000" />
+      <workItem from="1514679845376" duration="156000" />
+      <workItem from="1514680042289" duration="63000" />
+      <workItem from="1514680137470" duration="189000" />
+      <workItem from="1514680363089" duration="1141000" />
+      <workItem from="1514681530301" duration="20551000" />
+      <workItem from="1514816802743" duration="1210000" />
+      <workItem from="1514841359977" duration="20244000" />
+      <workItem from="1514935427882" duration="25986000" />
+      <workItem from="1515224083647" duration="8275000" />
+      <workItem from="1515295219008" duration="13458000" />
+      <workItem from="1515502835513" duration="9441000" />
+      <workItem from="1516394191108" duration="14903000" />
+      <workItem from="1516494684650" duration="10890000" />
+      <workItem from="1516627377331" duration="5696000" />
+      <workItem from="1517015498569" duration="592000" />
+      <workItem from="1517117538809" duration="592000" />
+      <workItem from="1517266025847" duration="592000" />
+      <workItem from="1517353462844" duration="100877000" />
+      <workItem from="1518680458585" duration="18487000" />
+      <workItem from="1523713958726" duration="9000" />
+      <workItem from="1533999185072" duration="869000" />
+      <workItem from="1534063793890" duration="1439000" />
+      <workItem from="1534291391251" duration="934000" />
+      <workItem from="1534377652538" duration="592000" />
+      <workItem from="1536395085522" duration="3875000" />
+      <workItem from="1536549430746" duration="876000" />
+      <workItem from="1538200959765" duration="18772000" />
+      <workItem from="1542895428433" duration="858000" />
+      <workItem from="1549359031909" duration="2054000" />
+      <workItem from="1549362169299" duration="43000" />
+      <workItem from="1549370542988" duration="354000" />
+      <workItem from="1549372797452" duration="477000" />
+      <workItem from="1549374621039" duration="67000" />
+      <workItem from="1549374719744" duration="11429000" />
+      <workItem from="1550148515276" duration="18061000" />
+      <workItem from="1550280861459" duration="1725000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="674907000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4889336" visible="true" weight="0.22214386" />
+      <window_info id="Structure" order="1" weight="0.2496474" />
+      <window_info id="npm" order="2" sideWeight="0.5110664" side_tool="true" weight="0.14104372" />
+      <window_info id="Favorites" order="3" sideWeight="0.5110664" side_tool="true" weight="0.14104372" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.4992948" weight="0.32962447" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.48730606" visible="true" weight="0.36629528" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49717912" weight="0.32267037" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49717912" weight="0.19080068" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.51269394" side_tool="true" visible="true" weight="0.36629528" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49717912" weight="0.23168655" />
+      <window_info anchor="bottom" id="Version Control" order="9" />
+      <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/xiaohuzi/xiaohuzi.js</url>
+          <line>226</line>
+          <option name="timeStamp" value="102" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/xiaohuzi/xiaohuzi.js</url>
+          <line>227</line>
+          <option name="timeStamp" value="104" />
+        </line-breakpoint>
+      </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="dart-exception">
+          <properties />
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="NodeJSConfigurationType">
+        <watch expression="PORT" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/bin/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="237" column="17" selection-start-line="237" selection-start-column="17" selection-end-line="237" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bin/layout.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="9" column="5" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/javascript/nodejs/8.6.0/core-modules/events.js" />
+    <entry file="file://$PROJECT_DIR$/node_modules/socket.io/lib/socket.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="502" column="11" selection-start-line="502" selection-start-column="11" selection-end-line="502" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/javascript/nodejs/library/node-timers-stub.js" />
+    <entry file="file://$PROJECT_DIR$/src/chatroom.js" />
+    <entry file="file://$PROJECT_DIR$/bin/index_demo.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-247">
+          <caret line="14" column="9" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/a/Index.js" />
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/webstorm.jar!/resources/html5-schema/html5/phrase.rnc" />
+    <entry file="file://$PROJECT_DIR$/bin/index_demo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="736" column="22" selection-start-line="736" selection-start-column="22" selection-end-line="736" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bin/byName/byName.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4674">
+          <caret line="246" column="38" selection-start-line="246" selection-start-column="38" selection-end-line="246" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/lrz.bundle.js" />
+    <entry file="file://$PROJECT_DIR$/bin/byName/byName.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7030">
+          <caret line="370" column="26" selection-start-line="370" selection-start-column="26" selection-end-line="370" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/forExpress.js" />
+    <entry file="file://$PROJECT_DIR$/src/public/js/a.js" />
+    <entry file="file://$APPLICATION_CONFIG_DIR$/javascript/nodejs/8.6.0/core-modules/fs.js" />
+    <entry file="file://$PROJECT_DIR$/bin/test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="456">
+          <caret line="24" column="29" selection-start-line="24" selection-start-column="29" selection-end-line="24" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bin/a.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/a.js" />
+    <entry file="file://$PROJECT_DIR$/src/html/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="20" column="7" selection-start-line="20" selection-start-column="7" selection-end-line="20" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/IndexForTest.js" />
+    <entry file="file://$PROJECT_DIR$/src/server.js" />
+    <entry file="file://$PROJECT_DIR$/src/sendPicture.html" />
+    <entry file="file://$PROJECT_DIR$/src/sendPicture.js" />
+    <entry file="file://$PROJECT_DIR$/src/html/sendPicture.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-950">
+          <caret line="22" column="47" selection-start-line="22" selection-start-column="47" selection-end-line="22" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/src/index.js" />
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/DHTML.js" />
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="16" column="30" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package-lock.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/webstorm64.exe.vmoptions" />
+    <entry file="file://$PROJECT_DIR$/../随聊001/server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="11191">
+          <caret line="589" column="40" selection-start-line="589" selection-start-column="40" selection-end-line="589" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/forLrz/sendPicture.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="589">
+          <caret line="31" column="1" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index_ban.js" />
+    <entry file="file://$PROJECT_DIR$/src/index21210.js" />
+    <entry file="file://$PROJECT_DIR$/src/xiaohuzi/xiaohuzi.js" />
+    <entry file="file://$PROJECT_DIR$/src/randomServer.js" />
+    <entry file="file://$PROJECT_DIR$/bin/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="25" column="25" selection-start-line="25" selection-start-column="25" selection-end-line="25" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index_ban.html" />
+    <entry file="file://$PROJECT_DIR$/src/index_ban_wai.js" />
+    <entry file="file://$PROJECT_DIR$/src/index_ban_wai.html" />
+    <entry file="file://$PROJECT_DIR$/src/xiaohuzi/xiaohuzi.html" />
+    <entry file="file://$PROJECT_DIR$/src/index001.css" />
+    <entry file="file://$PROJECT_DIR$/src/test01.css" />
+    <entry file="file://$PROJECT_DIR$/src/test.html" />
+    <entry file="file://$PROJECT_DIR$/src/test01.html" />
+    <entry file="file://$PROJECT_DIR$/src/test.js" />
+    <entry file="file://$PROJECT_DIR$/src/public/css/index01.css" />
+    <entry file="file://$PROJECT_DIR$/src/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="18" column="35" selection-start-line="18" selection-start-column="35" selection-end-line="18" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7505">
+          <caret line="395" column="34" selection-start-line="395" selection-start-column="34" selection-end-line="395" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/public/css/index.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8645">
+          <caret line="455" column="1" selection-start-line="455" selection-start-column="1" selection-end-line="455" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
