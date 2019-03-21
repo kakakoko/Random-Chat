@@ -8,13 +8,13 @@ Demo: http://18.191.50.216:30001/
 
 ### Screenshot
 
-- Register Name£º
+- Register Name
 
+![Register Name](https://github.com/kakakoko/Random-Chat/blob/master/public/images/RegisterName.jpg)
 
+- Chat
 
-- Chat£º
-
-
+![Chat](https://github.com/kakakoko/Random-Chat/blob/master/public/images/GroupChat.jpg)
 
 
 
