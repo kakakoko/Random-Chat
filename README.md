@@ -12,9 +12,11 @@ Demo: http://18.191.50.216:30001/
 
 ![Register Name](https://github.com/kakakoko/Random-Chat/blob/master/public/images/RegisterName.jpg)
 
-- Chat
+- GroupChat
 
 ![Chat](https://github.com/kakakoko/Random-Chat/blob/master/public/images/GroupChat.jpg)
+
+- Match
 
 
 
