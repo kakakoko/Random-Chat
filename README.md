@@ -17,12 +17,10 @@ Demo: http://18.191.50.216:30001/
 ![Chat](https://github.com/kakakoko/Random-Chat/blob/master/public/images/GroupChat.jpg)
 
 - Match
-![Match](https://github.com/kakakoko/Random-Chat/blob/master/public/images/%E5%88%86%E9%85%8D%E5%BC%B9%E6%A1%86a.jpg)
-![Match](https://github.com/kakakoko/Random-Chat/blob/master/public/images/%E5%88%86%E9%85%8D%E5%BC%B9%E6%A1%86c.jpg)
+![Match](https://github.com/kakakoko/Random-Chat/blob/master/public/images/%E5%88%86%E9%85%8D%E5%BC%B9%E6%A1%86a.jpg)![Match](https://github.com/kakakoko/Random-Chat/blob/master/public/images/%E5%88%86%E9%85%8D%E5%BC%B9%E6%A1%86c.jpg)
 
 - PrivateChat
-![PrivateChat](https://github.com/kakakoko/Random-Chat/blob/master/public/images/RandomChat_a.jpg)
-![PrivateChat](https://github.com/kakakoko/Random-Chat/blob/master/public/images/RandomChat_c.jpg)
+![PrivateChat](https://github.com/kakakoko/Random-Chat/blob/master/public/images/RandomChat_a.jpg)![PrivateChat](https://github.com/kakakoko/Random-Chat/blob/master/public/images/RandomChat_c.jpg)
 
 ### LICENSE
 
