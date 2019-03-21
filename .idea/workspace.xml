@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cc696728-b8c0-4c7c-a287-d09fae9281ac" name="Default" comment="" />
+    <list default="true" id="cc696728-b8c0-4c7c-a287-d09fae9281ac" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -16,20 +19,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="18" column="35" selection-start-line="18" selection-start-column="35" selection-end-line="18" selection-end-column="35" />
+            <state relative-caret-position="95">
+              <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7505">
-              <caret line="395" column="34" selection-start-line="395" selection-start-column="34" selection-end-line="395" selection-end-column="34" />
+            <state relative-caret-position="266">
+              <caret line="14" column="15" selection-start-line="14" selection-start-column="15" selection-end-line="14" selection-end-column="15" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -174,28 +180,23 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="RandomChat" type="b2602c69:ProjectViewProjectNode" />
-              <item name="RandomChat" type="462c0819:PsiDirectoryNode" />
+              <item name="RandomChat001" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RandomChat001" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="RandomChat" type="b2602c69:ProjectViewProjectNode" />
-              <item name="RandomChat" type="462c0819:PsiDirectoryNode" />
-              <item name="bin" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="RandomChat" type="b2602c69:ProjectViewProjectNode" />
-              <item name="RandomChat" type="462c0819:PsiDirectoryNode" />
+              <item name="RandomChat001" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RandomChat001" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -344,11 +345,12 @@
       <workItem from="1549374719744" duration="11429000" />
       <workItem from="1550148515276" duration="18061000" />
       <workItem from="1550280861459" duration="1725000" />
+      <workItem from="1553162392755" duration="1270000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="674907000" />
+    <option name="totallyTimeSpent" value="676177000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -361,6 +363,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4889336" visible="true" weight="0.22214386" />
       <window_info id="Structure" order="1" weight="0.2496474" />
@@ -368,12 +371,12 @@
       <window_info id="Favorites" order="3" sideWeight="0.5110664" side_tool="true" weight="0.14104372" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.4992948" weight="0.32962447" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.48730606" visible="true" weight="0.36629528" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.48660085" visible="true" weight="0.36629528" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49717912" weight="0.32267037" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49717912" weight="0.19080068" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.51269394" side_tool="true" visible="true" weight="0.36629528" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5133991" side_tool="true" visible="true" weight="0.36629528" />
       <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49717912" weight="0.23168655" />
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
@@ -412,20 +415,8 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/bin/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="237" column="17" selection-start-line="237" selection-start-column="17" selection-end-line="237" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bin/layout.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="9" column="5" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/bin/index.html" />
+    <entry file="file://$PROJECT_DIR$/bin/layout.html" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/javascript/nodejs/8.6.0/core-modules/events.js" />
     <entry file="file://$PROJECT_DIR$/node_modules/socket.io/lib/socket.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -436,69 +427,25 @@
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/javascript/nodejs/library/node-timers-stub.js" />
     <entry file="file://$PROJECT_DIR$/src/chatroom.js" />
-    <entry file="file://$PROJECT_DIR$/bin/index_demo.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-247">
-          <caret line="14" column="9" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/bin/index_demo.js" />
     <entry file="file://$PROJECT_DIR$/a/Index.js" />
     <entry file="jar://$APPLICATION_HOME_DIR$/lib/webstorm.jar!/resources/html5-schema/html5/phrase.rnc" />
-    <entry file="file://$PROJECT_DIR$/bin/index_demo.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="736" column="22" selection-start-line="736" selection-start-column="22" selection-end-line="736" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bin/byName/byName.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4674">
-          <caret line="246" column="38" selection-start-line="246" selection-start-column="38" selection-end-line="246" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/bin/index_demo.html" />
+    <entry file="file://$PROJECT_DIR$/bin/byName/byName.js" />
     <entry file="file://$PROJECT_DIR$/src/lrz.bundle.js" />
-    <entry file="file://$PROJECT_DIR$/bin/byName/byName.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7030">
-          <caret line="370" column="26" selection-start-line="370" selection-start-column="26" selection-end-line="370" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/bin/byName/byName.html" />
     <entry file="file://$PROJECT_DIR$/src/forExpress.js" />
     <entry file="file://$PROJECT_DIR$/src/public/js/a.js" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/javascript/nodejs/8.6.0/core-modules/fs.js" />
-    <entry file="file://$PROJECT_DIR$/bin/test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="24" column="29" selection-start-line="24" selection-start-column="29" selection-end-line="24" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bin/a.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/bin/test.js" />
+    <entry file="file://$PROJECT_DIR$/bin/a.js" />
     <entry file="file://$PROJECT_DIR$/src/a.js" />
-    <entry file="file://$PROJECT_DIR$/src/html/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="20" column="7" selection-start-line="20" selection-start-column="7" selection-end-line="20" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/html/index.html" />
     <entry file="file://$PROJECT_DIR$/src/IndexForTest.js" />
     <entry file="file://$PROJECT_DIR$/src/server.js" />
     <entry file="file://$PROJECT_DIR$/src/sendPicture.html" />
     <entry file="file://$PROJECT_DIR$/src/sendPicture.js" />
-    <entry file="file://$PROJECT_DIR$/src/html/sendPicture.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-950">
-          <caret line="22" column="47" selection-start-line="22" selection-start-column="47" selection-end-line="22" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/html/sendPicture.html" />
     <entry file="file://$PROJECT_DIR$/src/src/index.js" />
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/DHTML.js" />
     <entry file="file://$PROJECT_DIR$/package.json">
@@ -519,24 +466,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/forLrz/sendPicture.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="589">
-          <caret line="31" column="1" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/forLrz/sendPicture.js" />
     <entry file="file://$PROJECT_DIR$/src/index_ban.js" />
     <entry file="file://$PROJECT_DIR$/src/index21210.js" />
     <entry file="file://$PROJECT_DIR$/src/xiaohuzi/xiaohuzi.js" />
     <entry file="file://$PROJECT_DIR$/src/randomServer.js" />
-    <entry file="file://$PROJECT_DIR$/bin/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="25" column="25" selection-start-line="25" selection-start-column="25" selection-end-line="25" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/bin/index.js" />
     <entry file="file://$PROJECT_DIR$/src/index_ban.html" />
     <entry file="file://$PROJECT_DIR$/src/index_ban_wai.js" />
     <entry file="file://$PROJECT_DIR$/src/index_ban_wai.html" />
@@ -549,15 +484,8 @@
     <entry file="file://$PROJECT_DIR$/src/public/css/index01.css" />
     <entry file="file://$PROJECT_DIR$/src/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="18" column="35" selection-start-line="18" selection-start-column="35" selection-end-line="18" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7505">
-          <caret line="395" column="34" selection-start-line="395" selection-start-column="34" selection-end-line="395" selection-end-column="34" />
+        <state relative-caret-position="95">
+          <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
         </state>
       </provider>
     </entry>
@@ -572,6 +500,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8645">
           <caret line="455" column="1" selection-start-line="455" selection-start-column="1" selection-end-line="455" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="14" column="15" selection-start-line="14" selection-start-column="15" selection-end-line="14" selection-end-column="15" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
